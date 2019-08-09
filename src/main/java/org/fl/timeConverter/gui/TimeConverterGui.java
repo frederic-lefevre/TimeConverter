@@ -24,7 +24,7 @@ public class TimeConverterGui  extends JFrame {
 	
 	private static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 
-	private final static String datePattern = "uuuu-MM-dd HH:mm:ss.SSS VV" ;
+	private final static String datePattern = "uuuu-MM-dd ( EEEE ) HH:mm:ss.SSS VV" ;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,7 +69,7 @@ public class TimeConverterGui  extends JFrame {
 
 			timeField = new JLabel() ;
 			timeField.setFont(font);
-			timeField.setPreferredSize(new Dimension(300, 30)) ;
+			timeField.setPreferredSize(new Dimension(600, 30)) ;
 			
 			add(timeField) ;
 
