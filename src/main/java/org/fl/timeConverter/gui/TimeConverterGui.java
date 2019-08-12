@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -69,32 +70,41 @@ public class TimeConverterGui  extends JFrame {
 			
 			Font font = new Font("Verdana", Font.BOLD, 16);
 			JLabel milliTitle = new JLabel("Number of milliseconds since midnight, January 1, 1970 UTC :") ;
+			milliTitle.setFont(font);
+			milliTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			add(milliTitle) ;
 			
 			millisField = new JTextField(10) ;
 			millisField.setFont(font);
-			millisField.setPreferredSize(new Dimension(300, 30)) ;
+			millisField.setPreferredSize(new Dimension(300, 40)) ;
+			millisField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			millisField.setText(Long.toString(System.currentTimeMillis()));			
 			add(millisField) ;
 			
 			JPanel actionPane = new JPanel() ;
 			actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.X_AXIS));
 			
-			pStart = new JButton("Convert to readable time") ;			
+			pStart = new JButton("Convert to readable time") ;
+			pStart.setFont(font);
+			pStart.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			actionPane.add(pStart) ;
 
 			JLabel zoneTitle = new JLabel(" in the time zone : ") ;
+			zoneTitle.setFont(font);
 			actionPane.add(zoneTitle) ;
 			
 			zoneIdsField = new JComboBox<ZoneId>(zones) ;
 			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
+			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+			zoneIdsField.setFont(font);
 			actionPane.add(zoneIdsField) ;
 			
 			add (actionPane) ;
 			
 			timeField = new JLabel() ;
 			timeField.setFont(font);
-			timeField.setPreferredSize(new Dimension(600, 30)) ;			
+			timeField.setPreferredSize(new Dimension(600, 30)) ;	
+			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			add(timeField) ;
 
 			pStart.addActionListener(new StartProc());
