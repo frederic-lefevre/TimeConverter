@@ -108,29 +108,35 @@ public class TimeConverterGui  extends JFrame {
 			add(timeField) ;
 
 			pStart.addActionListener(new StartProc());
+			millisField.addActionListener(new StartProc());
 			pack() ;
 		}
 	}
 
 	private class StartProc implements ActionListener {
 
-		private static final String NOW = "now";
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			String milliText = millisField.getText() ;
-			if (milliText.equalsIgnoreCase(NOW)) {
-				timeField.setText(convertTime(System.currentTimeMillis(), (ZoneId) zoneIdsField.getSelectedItem()));
-			} else {
-				try {
-					timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
-				} catch (NumberFormatException ex) {
-					timeField.setText("Please provide a valid number of milliseconds or \"now\"") ;
-				}
-			}
+			upDateTimeField();
 		}
 		
+	}
+	
+	private static final String NOW = "now";
+	
+	private void upDateTimeField() {
+		
+		String milliText = millisField.getText() ;
+		if (milliText.equalsIgnoreCase(NOW)) {
+			timeField.setText(convertTime(System.currentTimeMillis(), (ZoneId) zoneIdsField.getSelectedItem()));
+		} else {
+			try {
+				timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
+			} catch (NumberFormatException ex) {
+				timeField.setText("Please provide a valid number of milliseconds or \"now\"") ;
+			}
+		}
 	}
 	
 	private String convertTime(long milli, ZoneId zoneId) {
