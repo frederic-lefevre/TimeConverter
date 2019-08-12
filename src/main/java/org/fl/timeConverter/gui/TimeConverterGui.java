@@ -46,14 +46,18 @@ public class TimeConverterGui  extends JFrame {
 	private JTextField millisField ;
 	private JLabel timeField ;
 	private JComboBox<ZoneId> zoneIdsField ;
-	private Vector<ZoneId> zoneIds ;
+	private Vector<ZoneId> zones ;
+
 	
 	public TimeConverterGui(String propertiesUri) {
 
 		RunningContext runningContext = null ;
 		runningContext = new RunningContext("TimeConverter", null, propertiesUri);
 		
-		zoneIds = ZoneId.getAvailableZoneIds().stream().map((z) -> ZoneId.of(z)).collect(Collectors.toCollection(Vector::new)) ;
+		zones = ZoneId.getAvailableZoneIds().stream()
+					.sorted()
+					.map((z) -> ZoneId.of(z))
+					.collect(Collectors.toCollection(Vector::new)) ;
 		
 		if (runningContext != null) {
 			
@@ -66,24 +70,21 @@ public class TimeConverterGui  extends JFrame {
 			millisField = new JTextField(10) ;
 			millisField.setFont(font);
 			millisField.setPreferredSize(new Dimension(300, 30)) ;
-			millisField.setText(Long.toString(System.currentTimeMillis()));
-			
+			millisField.setText(Long.toString(System.currentTimeMillis()));			
 			add(millisField) ;
 			
-			pStart = new JButton("Convert to string") ;
-			
+			pStart = new JButton("Convert to string") ;			
 			add(pStart) ;
 
 			timeField = new JLabel() ;
 			timeField.setFont(font);
-			timeField.setPreferredSize(new Dimension(600, 30)) ;
-			
+			timeField.setPreferredSize(new Dimension(600, 30)) ;			
 			add(timeField) ;
 
-			zoneIdsField = new JComboBox<ZoneId>(zoneIds) ;
-			
+			zoneIdsField = new JComboBox<ZoneId>(zones) ;
+			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
 			add(zoneIdsField) ;
-			
+
 			pStart.addActionListener(new StartProc());
 			pack() ;
 		}
@@ -94,7 +95,7 @@ public class TimeConverterGui  extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			timeField.setText(convertTime(Long.parseLong(millisField.getText()), ZoneId.systemDefault()));
+			timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
 		}
 		
 	}
