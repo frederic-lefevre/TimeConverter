@@ -67,23 +67,29 @@ public class TimeConverterGui  extends JFrame {
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 			
 			Font font = new Font("Verdana", Font.BOLD, 16);
+			JLabel milliTitle = new JLabel("Number of milliseconds since midnight, January 1, 1970 UTC :") ;
+			add(milliTitle) ;
+			
 			millisField = new JTextField(10) ;
 			millisField.setFont(font);
 			millisField.setPreferredSize(new Dimension(300, 30)) ;
 			millisField.setText(Long.toString(System.currentTimeMillis()));			
 			add(millisField) ;
 			
-			pStart = new JButton("Convert to string") ;			
+			pStart = new JButton("Convert to readable time") ;			
 			add(pStart) ;
 
+			JLabel zoneTitle = new JLabel(" in the time zone : ") ;
+			add(zoneTitle) ;
+			
+			zoneIdsField = new JComboBox<ZoneId>(zones) ;
+			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
+			add(zoneIdsField) ;
+			
 			timeField = new JLabel() ;
 			timeField.setFont(font);
 			timeField.setPreferredSize(new Dimension(600, 30)) ;			
 			add(timeField) ;
-
-			zoneIdsField = new JComboBox<ZoneId>(zones) ;
-			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
-			add(zoneIdsField) ;
 
 			pStart.addActionListener(new StartProc());
 			pack() ;
