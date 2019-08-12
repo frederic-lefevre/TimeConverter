@@ -9,9 +9,12 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -42,11 +45,15 @@ public class TimeConverterGui  extends JFrame {
 	private JButton pStart ;
 	private JTextField millisField ;
 	private JLabel timeField ;
+	private JComboBox<ZoneId> zoneIdsField ;
+	private Vector<ZoneId> zoneIds ;
 	
 	public TimeConverterGui(String propertiesUri) {
 
 		RunningContext runningContext = null ;
 		runningContext = new RunningContext("TimeConverter", null, propertiesUri);
+		
+		zoneIds = ZoneId.getAvailableZoneIds().stream().map((z) -> ZoneId.of(z)).collect(Collectors.toCollection(Vector::new)) ;
 		
 		if (runningContext != null) {
 			
@@ -73,6 +80,10 @@ public class TimeConverterGui  extends JFrame {
 			
 			add(timeField) ;
 
+			zoneIdsField = new JComboBox<ZoneId>(zoneIds) ;
+			
+			add(zoneIdsField) ;
+			
 			pStart.addActionListener(new StartProc());
 			pack() ;
 		}
