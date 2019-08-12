@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.ibm.lge.fl.util.RunningContext;
@@ -76,15 +77,20 @@ public class TimeConverterGui  extends JFrame {
 			millisField.setText(Long.toString(System.currentTimeMillis()));			
 			add(millisField) ;
 			
+			JPanel actionPane = new JPanel() ;
+			actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.X_AXIS));
+			
 			pStart = new JButton("Convert to readable time") ;			
-			add(pStart) ;
+			actionPane.add(pStart) ;
 
 			JLabel zoneTitle = new JLabel(" in the time zone : ") ;
-			add(zoneTitle) ;
+			actionPane.add(zoneTitle) ;
 			
 			zoneIdsField = new JComboBox<ZoneId>(zones) ;
 			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
-			add(zoneIdsField) ;
+			actionPane.add(zoneIdsField) ;
+			
+			add (actionPane) ;
 			
 			timeField = new JLabel() ;
 			timeField.setFont(font);
