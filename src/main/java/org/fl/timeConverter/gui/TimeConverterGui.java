@@ -104,10 +104,21 @@ public class TimeConverterGui  extends JFrame {
 
 	private class StartProc implements ActionListener {
 
+		private static final String NOW = "now";
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
+			String milliText = millisField.getText() ;
+			if (milliText.equalsIgnoreCase(NOW)) {
+				timeField.setText(convertTime(System.currentTimeMillis(), (ZoneId) zoneIdsField.getSelectedItem()));
+			} else {
+				try {
+					timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
+				} catch (NumberFormatException ex) {
+					timeField.setText("Please provide a valid number of milliseconds or \"now\"") ;
+				}
+			}
 		}
 		
 	}
