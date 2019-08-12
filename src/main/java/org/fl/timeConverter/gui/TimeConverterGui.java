@@ -24,7 +24,7 @@ public class TimeConverterGui  extends JFrame {
 	
 	private static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 
-	private final static String datePattern = "uuuu-MM-dd ( EEEE ) HH:mm:ss.SSS VV" ;
+	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV" ;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -83,12 +83,12 @@ public class TimeConverterGui  extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			timeField.setText(convertTime(Long.parseLong(millisField.getText())));
+			timeField.setText(convertTime(Long.parseLong(millisField.getText()), ZoneId.systemDefault()));
 		}
 		
 	}
 	
-	private String convertTime(long milli) {
-		return DateTimeFormatter.ofPattern(datePattern).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), ZoneId.systemDefault()));
+	private String convertTime(long milli, ZoneId zoneId) {
+		return DateTimeFormatter.ofPattern(datePattern).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
 	}
 }
