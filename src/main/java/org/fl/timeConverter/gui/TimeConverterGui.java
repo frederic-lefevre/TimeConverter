@@ -101,11 +101,14 @@ public class TimeConverterGui  extends JFrame {
 			
 			add (actionPane) ;
 			
+			JPanel resultPane = new JPanel() ;
+			resultPane.setLayout(new BoxLayout(resultPane, BoxLayout.X_AXIS));
 			timeField = new JLabel() ;
 			timeField.setFont(font);
 			timeField.setPreferredSize(new Dimension(600, 30)) ;	
 			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			add(timeField) ;
+			resultPane.add(timeField) ;
+			add(resultPane) ;
 
 			pStart.addActionListener(new StartProc());
 			millisField.addActionListener(new StartProc());
@@ -129,7 +132,9 @@ public class TimeConverterGui  extends JFrame {
 		
 		String milliText = millisField.getText() ;
 		if (milliText.equalsIgnoreCase(NOW)) {
-			timeField.setText(convertTime(System.currentTimeMillis(), (ZoneId) zoneIdsField.getSelectedItem()));
+			long now = System.currentTimeMillis() ;
+			String prefix = NOW + " = " + now + " = " ;
+			timeField.setText(prefix + convertTime(now, (ZoneId) zoneIdsField.getSelectedItem()));
 		} else {
 			try {
 				timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
