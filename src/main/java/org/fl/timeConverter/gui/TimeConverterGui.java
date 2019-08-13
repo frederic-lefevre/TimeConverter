@@ -69,10 +69,13 @@ public class TimeConverterGui  extends JFrame {
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 			
 			Font font = new Font("Verdana", Font.BOLD, 16);
+			JPanel milliTitlePane = new JPanel() ;
+			milliTitlePane.setLayout(new BoxLayout(milliTitlePane, BoxLayout.X_AXIS));
 			JLabel milliTitle = new JLabel("Number of milliseconds since midnight, January 1, 1970 UTC :") ;
 			milliTitle.setFont(font);
 			milliTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			add(milliTitle) ;
+			milliTitlePane.add(milliTitle) ;
+			add(milliTitlePane) ;
 			
 			millisField = new JTextField(10) ;
 			millisField.setFont(font);
