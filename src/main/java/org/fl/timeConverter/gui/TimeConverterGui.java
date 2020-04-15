@@ -40,7 +40,6 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	private JButton pStart ;
 	private JTextField millisField ;
 	private JLabel timeField ;
 	private JComboBox<ZoneId> zoneIdsField ;
@@ -80,11 +79,6 @@ public class TimeConverterGui  extends JFrame {
 			JPanel actionPane = new JPanel() ;
 			actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.X_AXIS));
 			
-			pStart = new JButton("Convert to readable time") ;
-			pStart.setFont(font);
-			pStart.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			actionPane.add(pStart) ;
-
 			JLabel zoneTitle = new JLabel(" in the time zone : ") ;
 			zoneTitle.setFont(font);
 			actionPane.add(zoneTitle) ;
@@ -106,7 +100,6 @@ public class TimeConverterGui  extends JFrame {
 			resultPane.add(timeField) ;
 			add(resultPane) ;
 
-			pStart.addActionListener(new StartProc());
 			millisField.addActionListener(new StartProc());
 			pack() ;
 			upDateTimeField();
