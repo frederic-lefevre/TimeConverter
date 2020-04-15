@@ -109,6 +109,7 @@ public class TimeConverterGui  extends JFrame {
 			pStart.addActionListener(new StartProc());
 			millisField.addActionListener(new StartProc());
 			pack() ;
+			upDateTimeField();
 		}
 	}
 
