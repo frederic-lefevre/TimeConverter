@@ -3,6 +3,9 @@ package org.fl.timeConverter.TimeConverter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.ZoneId;
+import java.util.Set;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.fl.timeConverter.gui.TimeUtils;
 import org.junit.jupiter.api.Test;
@@ -29,5 +32,20 @@ class TimeUtilsTest {
 		
 		assertEquals(someTime, beginTimeAsString) ;
 
+	}
+	
+	@Test
+	void testZones() {
+		
+		Vector<ZoneId> zones = TimeUtils.getZoneIds() ;
+		Set<String> zonesAsSet = ZoneId.getAvailableZoneIds() ;
+		
+		assertNotNull(zones) ;
+		assertNotNull(zonesAsSet) ;
+		assertEquals(zonesAsSet.size(), zones.size()) ;
+		
+		assertTrue(zones.containsAll(zonesAsSet.stream().map(z -> ZoneId.of(z)).collect(Collectors.toList()))) ;
+		
+		assertTrue(zonesAsSet.containsAll(zones.stream().map(z -> z.getId()).collect(Collectors.toList()))) ;
 	}
 }

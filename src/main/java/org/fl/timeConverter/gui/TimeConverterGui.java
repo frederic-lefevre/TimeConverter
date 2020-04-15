@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZoneId;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -53,10 +52,7 @@ public class TimeConverterGui  extends JFrame {
 		RunningContext runningContext = null ;
 		runningContext = new RunningContext("TimeConverter", null, propertiesUri);
 		
-		zones = ZoneId.getAvailableZoneIds().stream()
-					.sorted()
-					.map((z) -> ZoneId.of(z))
-					.collect(Collectors.toCollection(Vector::new)) ;
+		zones = TimeUtils.getZoneIds() ;
 		
 		if (runningContext != null) {
 			
