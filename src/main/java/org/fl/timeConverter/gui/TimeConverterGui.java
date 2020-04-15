@@ -63,44 +63,42 @@ public class TimeConverterGui  extends JFrame {
 			Font font = new Font("Verdana", Font.BOLD, 16);
 			JPanel milliTitlePane = new JPanel() ;
 			milliTitlePane.setLayout(new BoxLayout(milliTitlePane, BoxLayout.X_AXIS));
-			JLabel milliTitle = new JLabel("Nombre de millisecondes depuis le 1 janvier 1970, minuit, UTC") ;
+			JLabel milliTitle = new JLabel("Le nombre de millisecondes depuis le 1 janvier 1970, minuit, UTC") ;
 			milliTitle.setFont(font);
 			milliTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			milliTitlePane.add(milliTitle) ;
 			add(milliTitlePane) ;
 			
-			millisField = new JTextField(10) ;
+			millisField = new JTextField(13) ;
 			millisField.setFont(font);
 			millisField.setPreferredSize(new Dimension(300, 40)) ;
 			millisField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			millisField.setText(Long.toString(System.currentTimeMillis()));			
 			add(millisField) ;
 			
-			JPanel actionPane = new JPanel() ;
-			actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.X_AXIS));
-			
-			JLabel zoneTitle = new JLabel(" dans le fuseau horaire : ") ;
-			zoneTitle.setFont(font);
-			actionPane.add(zoneTitle) ;
-			
-			
-			
-			add (actionPane) ;
-			
-			JPanel resultPane = new JPanel() ;
-			resultPane.setLayout(new BoxLayout(resultPane, BoxLayout.X_AXIS));
+			JPanel datePane = new JPanel() ;
+			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
+			JLabel dateTitle = new JLabel(" correspond à : ") ;
+			dateTitle.setFont(font) ;
 			timeField = new JLabel() ;
 			timeField.setFont(font);
 			timeField.setPreferredSize(new Dimension(600, 30)) ;	
 			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			resultPane.add(timeField) ;
+			datePane.add(dateTitle) ;
+			datePane.add(timeField) ;
+			add (datePane) ;
 			
+			JPanel zonetPane = new JPanel() ;
+			zonetPane.setLayout(new BoxLayout(zonetPane, BoxLayout.X_AXIS));
+			JLabel zoneTitle = new JLabel(" dans le fuseau horaire : ") ;
+			zoneTitle.setFont(font);
+			zonetPane.add(zoneTitle) ;
 			zoneIdsField = new JComboBox<ZoneId>(zones) ;
 			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
 			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			zoneIdsField.setFont(font);
-			resultPane.add(zoneIdsField) ;
-			add(resultPane) ;
+			zonetPane.add(zoneIdsField) ;
+			add(zonetPane) ;
 
 			millisField.addActionListener(new StartProc());
 			zoneIdsField.addActionListener(new StartProc());
