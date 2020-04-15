@@ -5,10 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -137,17 +134,15 @@ public class TimeConverterGui  extends JFrame {
 		if (milliText.equalsIgnoreCase(NOW)) {
 			long now = System.currentTimeMillis() ;
 			String prefix = NOW + " = " + now + " = " ;
-			timeField.setText(prefix + convertTime(now, (ZoneId) zoneIdsField.getSelectedItem()));
+			timeField.setText(prefix + TimeUtils.convertTime(now, (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
 		} else {
 			try {
-				timeField.setText(convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem()));
+				timeField.setText(TimeUtils.convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
 			} catch (NumberFormatException ex) {
 				timeField.setText("Please provide a valid number of milliseconds or \"now\"") ;
 			}
 		}
 	}
 	
-	private String convertTime(long milli, ZoneId zoneId) {
-		return DateTimeFormatter.ofPattern(datePattern).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
-	}
+
 }
