@@ -10,7 +10,6 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -127,8 +126,8 @@ public class TimeConverterGui  extends JFrame {
 		String milliText = millisField.getText() ;
 		if (milliText.equalsIgnoreCase(NOW)) {
 			long now = System.currentTimeMillis() ;
-			String prefix = NOW + " = " + now + " = " ;
-			timeField.setText(prefix + TimeUtils.convertTime(now, (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
+			millisField.setText(Long.toString(now));
+			timeField.setText(TimeUtils.convertTime(now, (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
 		} else {
 			try {
 				timeField.setText(TimeUtils.convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
