@@ -25,7 +25,8 @@ public class TimeConverterGui  extends JFrame {
 	
 	private static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 
-	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV" ;
+//	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV" ;
+	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS" ;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -63,7 +64,7 @@ public class TimeConverterGui  extends JFrame {
 			Font font = new Font("Verdana", Font.BOLD, 16);
 			JPanel milliTitlePane = new JPanel() ;
 			milliTitlePane.setLayout(new BoxLayout(milliTitlePane, BoxLayout.X_AXIS));
-			JLabel milliTitle = new JLabel("Number of milliseconds since midnight, January 1, 1970 UTC :") ;
+			JLabel milliTitle = new JLabel("Nombre de millisecondes depuis le 1 janvier 1970, minuit, UTC") ;
 			milliTitle.setFont(font);
 			milliTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			milliTitlePane.add(milliTitle) ;
@@ -79,15 +80,11 @@ public class TimeConverterGui  extends JFrame {
 			JPanel actionPane = new JPanel() ;
 			actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.X_AXIS));
 			
-			JLabel zoneTitle = new JLabel(" in the time zone : ") ;
+			JLabel zoneTitle = new JLabel(" dans le fuseau horaire : ") ;
 			zoneTitle.setFont(font);
 			actionPane.add(zoneTitle) ;
 			
-			zoneIdsField = new JComboBox<ZoneId>(zones) ;
-			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
-			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			zoneIdsField.setFont(font);
-			actionPane.add(zoneIdsField) ;
+			
 			
 			add (actionPane) ;
 			
@@ -98,6 +95,12 @@ public class TimeConverterGui  extends JFrame {
 			timeField.setPreferredSize(new Dimension(600, 30)) ;	
 			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			resultPane.add(timeField) ;
+			
+			zoneIdsField = new JComboBox<ZoneId>(zones) ;
+			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
+			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+			zoneIdsField.setFont(font);
+			resultPane.add(zoneIdsField) ;
 			add(resultPane) ;
 
 			millisField.addActionListener(new StartProc());
@@ -130,7 +133,7 @@ public class TimeConverterGui  extends JFrame {
 			try {
 				timeField.setText(TimeUtils.convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
 			} catch (NumberFormatException ex) {
-				timeField.setText("Please provide a valid number of milliseconds or \"now\"") ;
+				timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
 			}
 		}
 	}
