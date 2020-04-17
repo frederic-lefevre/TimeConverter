@@ -1,4 +1,4 @@
-package org.fl.timeConverter.gui;
+package org.fl.timeConverter;
 
 import java.time.Instant;
 import java.time.ZoneId;

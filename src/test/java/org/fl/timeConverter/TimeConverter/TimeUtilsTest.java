@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
-import org.fl.timeConverter.gui.TimeUtils;
+import org.fl.timeConverter.TimeUtils;
 import org.junit.jupiter.api.Test;
 
 class TimeUtilsTest {

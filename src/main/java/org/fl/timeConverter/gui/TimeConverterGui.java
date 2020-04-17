@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.fl.timeConverter.TimeUtils;
+
 import com.ibm.lge.fl.util.RunningContext;
 
 public class TimeConverterGui  extends JFrame {
