@@ -165,7 +165,7 @@ public class TimeConverterGui  extends JFrame {
 			
 			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
 			daysField.removeAllItems();
-			daysFieldModel.addAll(TimeUtils.getAllDaysOfMonth(zdt).values());
+			daysFieldModel.addAll(TimeUtils.getAllDaysOfMonth(zdt).getVector());
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
