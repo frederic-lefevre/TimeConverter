@@ -2,6 +2,7 @@ package org.fl.timeConverter;
 
 import java.time.Instant;
 import java.time.Month;
+import java.time.MonthDay;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -45,8 +46,10 @@ public class TimeUtils {
 		DisplayableTemporalSet daysSet = new DisplayableTemporalSet() ;
 		
 		int lastDay = YearMonth.from(time).lengthOfMonth() ;
+		ZonedDateTime zoneDateTimeForTheDay ;
 		for (int day=1; day <= lastDay; day++) {
-			daysSet.addElement(formatter, time.with(ChronoField.DAY_OF_MONTH, day)) ;
+			zoneDateTimeForTheDay = time.with(ChronoField.DAY_OF_MONTH, day) ;
+			daysSet.addElement(formatter, MonthDay.from(zoneDateTimeForTheDay), zoneDateTimeForTheDay) ;
 		}
 		return daysSet ;
 	}

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Instant;
 import java.time.Month;
+import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Vector;
@@ -165,7 +166,10 @@ public class TimeConverterGui  extends JFrame {
 			
 			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
 			daysField.removeAllItems();
-			daysFieldModel.addAll(TimeUtils.getAllDaysOfMonth(zdt).getVector());
+			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+			daysFieldModel.addAll(daysOfMonth.getVector());
+					
+			daysField.setSelectedItem(daysOfMonth.get(MonthDay.from(zdt)));
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
