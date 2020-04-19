@@ -91,13 +91,11 @@ public class TimeConverterGui  extends JFrame {
 			JPanel milliTitlePane = new JPanel() ;
 			milliTitlePane.setLayout(new BoxLayout(milliTitlePane, BoxLayout.X_AXIS));
 			JLabel milliTitle = new JLabel("Le nombre de millisecondes depuis le 1 janvier 1970, minuit, UTC") ;
-			milliTitle.setFont(font);
 			milliTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			milliTitlePane.add(milliTitle) ;
 			add(milliTitlePane) ;
 			
 			millisField = new JTextField(13) ;
-			millisField.setFont(font);
 			millisField.setPreferredSize(new Dimension(300, 40)) ;
 			millisField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			millisField.setText(Long.toString(System.currentTimeMillis()));			
@@ -106,9 +104,7 @@ public class TimeConverterGui  extends JFrame {
 			JPanel datePane = new JPanel() ;
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
 			JLabel dateTitle = new JLabel(" correspond à : ") ;
-			dateTitle.setFont(font) ;
 			timeField = new JLabel() ;
-			timeField.setFont(font);
 			timeField.setPreferredSize(new Dimension(600, 30)) ;	
 			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 			datePane.add(dateTitle) ;
@@ -118,12 +114,10 @@ public class TimeConverterGui  extends JFrame {
 			JPanel zonetPane = new JPanel() ;
 			zonetPane.setLayout(new BoxLayout(zonetPane, BoxLayout.X_AXIS));
 			JLabel zoneTitle = new JLabel(" dans le fuseau horaire : ") ;
-			zoneTitle.setFont(font);
 			zonetPane.add(zoneTitle) ;
 			zoneIdsField = new JComboBox<ZoneId>(zones) ;
 			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
 			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			zoneIdsField.setFont(font);
 			zonetPane.add(zoneIdsField) ;
 			add(zonetPane) ;
 
