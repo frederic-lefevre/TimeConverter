@@ -103,18 +103,16 @@ public class TimeConverterGui  extends JFrame {
 			
 			JPanel datePane = new JPanel() ;
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-			JLabel dateTitle = new JLabel(" correspond à : ") ;
 			timeField = new JLabel() ;
 			timeField.setPreferredSize(new Dimension(600, 30)) ;	
 			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			datePane.add(dateTitle) ;
+			datePane.add(new JLabel(" correspond à : ")) ;
 			datePane.add(timeField) ;
 			add (datePane) ;
 			
 			JPanel zonetPane = new JPanel() ;
 			zonetPane.setLayout(new BoxLayout(zonetPane, BoxLayout.X_AXIS));
-			JLabel zoneTitle = new JLabel(" dans le fuseau horaire : ") ;
-			zonetPane.add(zoneTitle) ;
+			zonetPane.add(new JLabel(" dans le fuseau horaire : ")) ;
 			zoneIdsField = new JComboBox<ZoneId>(zones) ;
 			zoneIdsField.setSelectedItem(ZoneId.systemDefault()) ;
 			zoneIdsField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
