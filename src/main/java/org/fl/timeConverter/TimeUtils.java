@@ -2,9 +2,11 @@ package org.fl.timeConverter;
 
 import java.time.Instant;
 import java.time.Month;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -24,15 +26,28 @@ public class TimeUtils {
 					.collect(Collectors.toCollection(Vector::new)) ;
 	}
 	
-	// Get all months in a vector
+	// Get all months
 	public static DisplayableTemporalSet getMonths() {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM").localizedBy(Locale.FRENCH) ;
 		DisplayableTemporalSet monthsSet = new DisplayableTemporalSet() ;
 		Month[] months = Month.values() ;
 		for (Month month : months) {			
-			monthsSet.put(month, new DisplayableTemporal(formatter, month)) ;
+			monthsSet.addElement(formatter, month) ;
 		}
 		return monthsSet ;
+	}
+	
+	// Get all days in the month of a date
+	public static DisplayableTemporalSet getAllDaysOfMonth(ZonedDateTime time) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd").localizedBy(Locale.FRENCH) ;
+		DisplayableTemporalSet daysSet = new DisplayableTemporalSet() ;
+		
+		int lastDay = YearMonth.from(time).lengthOfMonth() ;
+		for (int day=1; day <= lastDay; day++) {
+			daysSet.addElement(formatter, time.with(ChronoField.DAY_OF_MONTH, day)) ;
+		}
+		return daysSet ;
 	}
 }

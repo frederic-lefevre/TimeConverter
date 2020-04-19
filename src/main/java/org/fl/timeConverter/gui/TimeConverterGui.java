@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,9 +50,13 @@ public class TimeConverterGui  extends JFrame {
 	
 	private JTextField millisField ;
 	private JLabel timeField ;
+	
 	private JComboBox<ZoneId> zoneIdsField ;
 	private JComboBox<DisplayableTemporal> monthsField ;
+	private JComboBox<DisplayableTemporal> daysField ;
+	private DefaultComboBoxModel<DisplayableTemporal> daysFieldModel ;
 	private DisplayableTemporalSet months ;
+	private DisplayableTemporalSet daysOfMonth ;
 	
 	public TimeConverterGui(String propertiesUri) {
 
@@ -111,6 +116,10 @@ public class TimeConverterGui  extends JFrame {
 
 			JPanel dateTimePanel = new JPanel() ;
 			dateTimePanel.setLayout(new BoxLayout(dateTimePanel, BoxLayout.X_AXIS));
+			
+			daysFieldModel = new DefaultComboBoxModel<>() ;
+			daysField = new JComboBox<DisplayableTemporal>(daysFieldModel) ;
+			dateTimePanel.add(daysField) ;
 			monthsField = new JComboBox<DisplayableTemporal>(months.getVector()) ;
 			dateTimePanel.add(monthsField) ;
 			add(dateTimePanel) ;
@@ -153,6 +162,10 @@ public class TimeConverterGui  extends JFrame {
 			Month m = zdt.getMonth() ;
 			DisplayableTemporal item = months.get(m) ;
 			monthsField.setSelectedItem(item);
+			
+			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+			daysField.removeAllItems();
+			daysFieldModel.addAll(TimeUtils.getAllDaysOfMonth(zdt).values());
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
