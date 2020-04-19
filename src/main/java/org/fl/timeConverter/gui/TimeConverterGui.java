@@ -12,6 +12,7 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -145,64 +146,104 @@ public class TimeConverterGui  extends JFrame {
 			
 			setFontForAll(this, font);
 			
-			millisField.addActionListener(new StartProc());
-			zoneIdsField.addActionListener(new StartProc());
+			MillisAndZoneListener millisAndZoneListener = new MillisAndZoneListener() ;
+			millisField.addActionListener(millisAndZoneListener);
+			zoneIdsField.addActionListener(millisAndZoneListener);
+			
+			DateTimeListener dateTimeListener = new DateTimeListener() ;
+			daysField.addActionListener(dateTimeListener) ;
+			monthsField.addActionListener(dateTimeListener) ;
+			yearField.addActionListener(dateTimeListener) ;
+			hourField.addActionListener(dateTimeListener) ;
+			minuteField.addActionListener(dateTimeListener) ;
+			secondField.addActionListener(dateTimeListener) ;
+			nanoField.addActionListener(dateTimeListener) ;
+			
 			pack() ;
-			upDateTimeField();
+			millisAndZoneListener.upDateTimeField();
 		}
 	}
 
-	private class StartProc implements ActionListener {
+	private class MillisAndZoneListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
+		public void actionPerformed(ActionEvent e) {			
 			upDateTimeField();
-		}
+		}	
 		
+		private static final String NOW = "now";
+		public void upDateTimeField() {
+			
+			ZoneId zone = (ZoneId)zoneIdsField.getSelectedItem() ;
+			String milliText = millisField.getText() ;
+			try {
+				long milli ;
+				if (milliText.equalsIgnoreCase(NOW)) {
+					milli = System.currentTimeMillis() ;
+					millisField.setText(Long.toString(milli)) ;			
+				} else {				
+					milli = Long.parseLong(millisField.getText()) ;			
+				}
+				
+				timeField.setText(TimeUtils.convertTime(milli, zone, datePattern)) ;
+				
+				// Get the ZonedDateTime corresponding to the milliseconds and the zone
+				ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())), zone) ;
+							
+				// Update day field
+				daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+				daysField.removeAllItems();
+				daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+				daysFieldModel.addAll(daysOfMonth.getVector());					
+				daysField.setSelectedItem(daysOfMonth.get(MonthDay.from(zdt)));
+				
+				// update the month field
+				Month m = zdt.getMonth() ;
+				DisplayableTemporal item = months.get(m) ;
+				monthsField.setSelectedItem(item);
+				
+				// Update year, hour, minute, second, nano fields
+				yearField.setText(Integer.toString(zdt.getYear())) ;
+				hourField.setText(Integer.toString(zdt.getHour())) ;
+				minuteField.setText(Integer.toString(zdt.getMinute())) ;
+				secondField.setText(Integer.toString(zdt.getSecond())) ;
+				nanoField.setText(Integer.toString(zdt.getNano()/1000000)) ;
+				
+			} catch (NumberFormatException ex) {
+				timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
+			}
+		}
 	}
 	
-	private static final String NOW = "now";
-	
-	private void upDateTimeField() {
+	private class DateTimeListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			updateMilliField();
+		}	
 		
-		ZoneId zone = (ZoneId)zoneIdsField.getSelectedItem() ;
-		String milliText = millisField.getText() ;
-		try {
-			long milli ;
-			if (milliText.equalsIgnoreCase(NOW)) {
-				milli = System.currentTimeMillis() ;
-				millisField.setText(Long.toString(milli)) ;			
-			} else {				
-				milli = Long.parseLong(millisField.getText()) ;			
+		private void updateMilliField() {
+		
+			// Get date and time field
+			try {
+				int y = Integer.parseInt(yearField.getText()) ;
+				int h = Integer.parseInt(hourField.getText()) ;
+				int m = Integer.parseInt(minuteField.getText()) ;
+				int s = Integer.parseInt(secondField.getText()) ;
+				int n = Integer.parseInt(nanoField.getText()) ;
+				
+				int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor().get(ChronoField.MONTH_OF_YEAR) ;
+				int da = ((DisplayableTemporal) daysField.getSelectedItem()).getTemporalAccessor().get(ChronoField.DAY_OF_MONTH) ;
+				
+				ZoneId zo = (ZoneId)zoneIdsField.getSelectedItem() ;
+				
+				ZonedDateTime zdt = ZonedDateTime.of(y, mo, da, h, m, s, n*1000000, zo) ;
+				
+				millisField.setText(Long.toString(zdt.toInstant().toEpochMilli()));
+				
+			} catch (NumberFormatException ex) {
+				timeField.setText("Rentrez un nombre valide") ;
 			}
-			
-			timeField.setText(TimeUtils.convertTime(milli, zone, datePattern)) ;
-			
-			// Get the ZonedDateTime corresponding to the milliseconds and the zone
-			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())), zone) ;
-						
-			// Update day field
-			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
-			daysField.removeAllItems();
-			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
-			daysFieldModel.addAll(daysOfMonth.getVector());					
-			daysField.setSelectedItem(daysOfMonth.get(MonthDay.from(zdt)));
-			
-			// update the month field
-			Month m = zdt.getMonth() ;
-			DisplayableTemporal item = months.get(m) ;
-			monthsField.setSelectedItem(item);
-			
-			// Update year, hour, minute, second, nano fields
-			yearField.setText(Integer.toString(zdt.getYear())) ;
-			hourField.setText(Integer.toString(zdt.getHour())) ;
-			minuteField.setText(Integer.toString(zdt.getMinute())) ;
-			secondField.setText(Integer.toString(zdt.getSecond())) ;
-			nanoField.setText(Integer.toString(zdt.getNano()/1000000)) ;
-			
-		} catch (NumberFormatException ex) {
-			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
 		}
 	}
 	
