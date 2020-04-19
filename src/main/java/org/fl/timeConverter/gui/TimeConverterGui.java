@@ -1,5 +1,7 @@
 package org.fl.timeConverter.gui;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -136,17 +138,20 @@ public class TimeConverterGui  extends JFrame {
 			yearField = new JTextField(5) ;
 			dateTimePanel.add(yearField) ;
 			hourField = new JTextField(2) ;
-			dateTimePanel.add(hourField) ;
-			dateTimePanel.add(new JLabel("h")) ;
+			dateTimePanel.add(hourField) ;			
+			dateTimePanel.add(new JLabel("h ")) ;
 			minuteField = new JTextField(2) ;
-			dateTimePanel.add(minuteField) ;
-			dateTimePanel.add(new JLabel("m")) ;
+			dateTimePanel.add(minuteField) ;			
+			dateTimePanel.add(new JLabel("m ")) ;
 			secondField = new JTextField(2) ;
 			dateTimePanel.add(secondField) ;
-			dateTimePanel.add(new JLabel("s")) ;
+			dateTimePanel.add(new JLabel("s ")) ;
 			nanoField = new JTextField(9) ;
 			dateTimePanel.add(nanoField) ;
+			dateTimePanel.add(new JLabel("ns ")) ;
 			add(dateTimePanel) ;
+			
+			setFontForAll(this, font);
 			
 			millisField.addActionListener(new StartProc());
 			zoneIdsField.addActionListener(new StartProc());
@@ -209,5 +214,13 @@ public class TimeConverterGui  extends JFrame {
 		}
 	}
 	
+	private static void setFontForAll(Component component, Font font) 	{
+	    component.setFont(font);
+	    if (component instanceof Container) {
+	        for (Component child : ((Container)component).getComponents()) {
+	        	setFontForAll(child, font);
+	        }
+	    }
+	}
 
 }
