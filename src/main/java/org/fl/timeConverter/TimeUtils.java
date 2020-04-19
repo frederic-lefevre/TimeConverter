@@ -1,6 +1,7 @@
 package org.fl.timeConverter;
 
 import java.time.Instant;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,5 +22,17 @@ public class TimeUtils {
 					.sorted()
 					.map((z) -> ZoneId.of(z))
 					.collect(Collectors.toCollection(Vector::new)) ;
+	}
+	
+	// Get all months in a vector
+	public static DisplayableTemporalSet getMonths() {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM").localizedBy(Locale.FRENCH) ;
+		DisplayableTemporalSet monthsSet = new DisplayableTemporalSet() ;
+		Month[] months = Month.values() ;
+		for (Month month : months) {			
+			monthsSet.put(month, new DisplayableTemporal(formatter, month)) ;
+		}
+		return monthsSet ;
 	}
 }

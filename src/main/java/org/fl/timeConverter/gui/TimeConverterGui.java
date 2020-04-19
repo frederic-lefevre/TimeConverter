@@ -5,7 +5,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Instant;
+import java.time.Month;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -16,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.fl.timeConverter.DisplayableTemporal;
+import org.fl.timeConverter.DisplayableTemporalSet;
 import org.fl.timeConverter.TimeUtils;
 
 import com.ibm.lge.fl.util.RunningContext;
@@ -45,15 +50,17 @@ public class TimeConverterGui  extends JFrame {
 	private JTextField millisField ;
 	private JLabel timeField ;
 	private JComboBox<ZoneId> zoneIdsField ;
-	private Vector<ZoneId> zones ;
-
+	private JComboBox<DisplayableTemporal> monthsField ;
+	private DisplayableTemporalSet months ;
 	
 	public TimeConverterGui(String propertiesUri) {
 
 		RunningContext runningContext = null ;
 		runningContext = new RunningContext("TimeConverter", null, propertiesUri);
 		
-		zones = TimeUtils.getZoneIds() ;
+		Vector<ZoneId> zones = TimeUtils.getZoneIds() ;
+		
+		months = TimeUtils.getMonths() ;
 		
 		if (runningContext != null) {
 			
@@ -102,6 +109,12 @@ public class TimeConverterGui  extends JFrame {
 			zonetPane.add(zoneIdsField) ;
 			add(zonetPane) ;
 
+			JPanel dateTimePanel = new JPanel() ;
+			dateTimePanel.setLayout(new BoxLayout(dateTimePanel, BoxLayout.X_AXIS));
+			monthsField = new JComboBox<DisplayableTemporal>(months.getVector()) ;
+			dateTimePanel.add(monthsField) ;
+			add(dateTimePanel) ;
+			
 			millisField.addActionListener(new StartProc());
 			zoneIdsField.addActionListener(new StartProc());
 			pack() ;
@@ -123,17 +136,26 @@ public class TimeConverterGui  extends JFrame {
 	
 	private void upDateTimeField() {
 		
+		ZoneId zone = (ZoneId)zoneIdsField.getSelectedItem() ;
 		String milliText = millisField.getText() ;
-		if (milliText.equalsIgnoreCase(NOW)) {
-			long now = System.currentTimeMillis() ;
-			millisField.setText(Long.toString(now));
-			timeField.setText(TimeUtils.convertTime(now, (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
-		} else {
-			try {
-				timeField.setText(TimeUtils.convertTime(Long.parseLong(millisField.getText()), (ZoneId) zoneIdsField.getSelectedItem(), datePattern));
-			} catch (NumberFormatException ex) {
-				timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
+		try {
+			long milli ;
+			if (milliText.equalsIgnoreCase(NOW)) {
+				milli = System.currentTimeMillis() ;
+				millisField.setText(Long.toString(milli)) ;			
+			} else {				
+				milli = Long.parseLong(millisField.getText()) ;			
 			}
+			
+			timeField.setText(TimeUtils.convertTime(milli, zone, datePattern)) ;
+			
+			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())), zone) ;
+			Month m = zdt.getMonth() ;
+			DisplayableTemporal item = months.get(m) ;
+			monthsField.setSelectedItem(item);
+			
+		} catch (NumberFormatException ex) {
+			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
 		}
 	}
 	

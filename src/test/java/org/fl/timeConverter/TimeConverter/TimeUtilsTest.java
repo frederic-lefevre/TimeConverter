@@ -48,4 +48,10 @@ class TimeUtilsTest {
 		
 		assertTrue(zonesAsSet.containsAll(zones.stream().map(z -> z.getId()).collect(Collectors.toList()))) ;
 	}
+	
+	@Test
+	void testMonths() {
+		
+		TimeUtils.getMonths(); 
+	}
 }
