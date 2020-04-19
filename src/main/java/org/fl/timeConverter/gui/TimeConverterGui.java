@@ -49,13 +49,23 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
+	// Millisecond
 	private JTextField millisField ;
 	private JLabel timeField ;
 	
+	// Zone
 	private JComboBox<ZoneId> zoneIdsField ;
-	private JComboBox<DisplayableTemporal> monthsField ;
+	
+	// Date Time fields
 	private JComboBox<DisplayableTemporal> daysField ;
 	private DefaultComboBoxModel<DisplayableTemporal> daysFieldModel ;
+	private JComboBox<DisplayableTemporal> monthsField ;
+	private JTextField yearField ;
+	private JTextField hourField ;
+	private JTextField minuteField ;
+	private JTextField secondField ;
+	private JTextField nanoField ;
+		
 	private DisplayableTemporalSet months ;
 	private DisplayableTemporalSet daysOfMonth ;
 	
@@ -123,6 +133,19 @@ public class TimeConverterGui  extends JFrame {
 			dateTimePanel.add(daysField) ;
 			monthsField = new JComboBox<DisplayableTemporal>(months.getVector()) ;
 			dateTimePanel.add(monthsField) ;
+			yearField = new JTextField(5) ;
+			dateTimePanel.add(yearField) ;
+			hourField = new JTextField(2) ;
+			dateTimePanel.add(hourField) ;
+			dateTimePanel.add(new JLabel("h")) ;
+			minuteField = new JTextField(2) ;
+			dateTimePanel.add(minuteField) ;
+			dateTimePanel.add(new JLabel("m")) ;
+			secondField = new JTextField(2) ;
+			dateTimePanel.add(secondField) ;
+			dateTimePanel.add(new JLabel("s")) ;
+			nanoField = new JTextField(9) ;
+			dateTimePanel.add(nanoField) ;
 			add(dateTimePanel) ;
 			
 			millisField.addActionListener(new StartProc());
@@ -159,17 +182,27 @@ public class TimeConverterGui  extends JFrame {
 			
 			timeField.setText(TimeUtils.convertTime(milli, zone, datePattern)) ;
 			
+			// Get the ZonedDateTime corresponding to the milliseconds and the zone
 			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())), zone) ;
+						
+			// Update day field
+			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+			daysField.removeAllItems();
+			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
+			daysFieldModel.addAll(daysOfMonth.getVector());					
+			daysField.setSelectedItem(daysOfMonth.get(MonthDay.from(zdt)));
+			
+			// update the month field
 			Month m = zdt.getMonth() ;
 			DisplayableTemporal item = months.get(m) ;
 			monthsField.setSelectedItem(item);
 			
-			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
-			daysField.removeAllItems();
-			daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
-			daysFieldModel.addAll(daysOfMonth.getVector());
-					
-			daysField.setSelectedItem(daysOfMonth.get(MonthDay.from(zdt)));
+			// Update year, hour, minute, second, nano fields
+			yearField.setText(Integer.toString(zdt.getYear())) ;
+			hourField.setText(Integer.toString(zdt.getHour())) ;
+			minuteField.setText(Integer.toString(zdt.getMinute())) ;
+			secondField.setText(Integer.toString(zdt.getSecond())) ;
+			nanoField.setText(Integer.toString(zdt.getNano())) ;
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
