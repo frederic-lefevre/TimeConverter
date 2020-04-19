@@ -140,9 +140,9 @@ public class TimeConverterGui  extends JFrame {
 			secondField = new JTextField(2) ;
 			dateTimePanel.add(secondField) ;
 			dateTimePanel.add(new JLabel("s ")) ;
-			nanoField = new JTextField(9) ;
+			nanoField = new JTextField(3) ;
 			dateTimePanel.add(nanoField) ;
-			dateTimePanel.add(new JLabel("ns ")) ;
+			dateTimePanel.add(new JLabel("ms ")) ;
 			add(dateTimePanel) ;
 			
 			setFontForAll(this, font);
@@ -201,7 +201,7 @@ public class TimeConverterGui  extends JFrame {
 			hourField.setText(Integer.toString(zdt.getHour())) ;
 			minuteField.setText(Integer.toString(zdt.getMinute())) ;
 			secondField.setText(Integer.toString(zdt.getSecond())) ;
-			nanoField.setText(Integer.toString(zdt.getNano())) ;
+			nanoField.setText(Integer.toString(zdt.getNano()/1000000)) ;
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
