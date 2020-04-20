@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -113,6 +114,8 @@ public class MillisecondsAndZonePanel extends JPanel {
 			
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Exception processing date milli=" + milliText, e);
 		}
 	}
 }
