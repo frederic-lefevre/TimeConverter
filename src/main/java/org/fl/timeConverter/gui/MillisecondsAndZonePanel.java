@@ -22,9 +22,6 @@ public class MillisecondsAndZonePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-//	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV" ;
-	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS" ;
-	
 	private final JTextField millisField ;
 	private final JComboBox<ZoneId> zoneIdsField ;
 		
@@ -108,7 +105,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 				milli = Long.parseLong(millisField.getText()) ;			
 			}
 			
-			timeField.setText(TimeUtils.convertTime(milli, zone, datePattern)) ;
+			timeField.setText(TimeUtils.convertTime(milli, zone, TimeConverterGui.DATE_PATTERN)) ;
 			
 			// Get the ZonedDateTime corresponding to the milliseconds and the zone
 			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())), zone) ;

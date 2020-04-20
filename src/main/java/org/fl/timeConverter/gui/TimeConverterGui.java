@@ -34,6 +34,8 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
+	public final static String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS" ;
+	
 	private JLabel timeField ;
 	
 	private final Logger logger ;
