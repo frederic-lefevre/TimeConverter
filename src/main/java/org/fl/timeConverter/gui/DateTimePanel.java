@@ -105,11 +105,8 @@ public class DateTimePanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			logger.info("DateTimeListener ActionEvent source=" + e.getSource().toString()) ;
-
 			updateMilliField(millisecondsAndZonePanel, infoLabel);			
-		}	
-		
+		}			
 	}
 	
 	public void updateMilliField(MillisecondsAndZonePanel mzp, JLabel timeField) {
@@ -127,13 +124,17 @@ public class DateTimePanel extends JPanel {
 			
 			ZoneId zo = mzp.getZoneId() ;
 			
-			ZonedDateTime zdt = ZonedDateTime.of(y, mo, da, h, m, s, n*1000000, zo) ;
-			
-			long milli = zdt.toInstant().toEpochMilli() ;
-			mzp.setMillisecondsField(milli);
-			timeField.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN)) ;
-			
-			logger.info("End updateMilli");
+			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n*1000000, zo, logger) ;
+			if (zdt == null) {
+				timeField.setText("Problème dans l'évaluation de la date") ;
+			} else {
+				// Realign fields (useful for day)
+				setDateTimeFields(zdt) ;
+				
+				long milli = zdt.toInstant().toEpochMilli() ;
+				mzp.setMillisecondsField(milli);
+				timeField.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN)) ;
+			}
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide") ;
 		}

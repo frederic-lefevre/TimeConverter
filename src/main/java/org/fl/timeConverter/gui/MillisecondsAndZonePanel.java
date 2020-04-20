@@ -85,8 +85,6 @@ public class MillisecondsAndZonePanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			logger.info("MillisAndZoneListener ActionEvent source=" + e.getSource().toString()) ;
-
 			upDateTimeField();			
 		}	
 	}
@@ -113,7 +111,6 @@ public class MillisecondsAndZonePanel extends JPanel {
 			// Update day, month, year, hour, minute, second, millisecond fields
 			dateTimePanel.setDateTimeFields(zdt);
 			
-			logger.info("End updateDateTime");
 		} catch (NumberFormatException ex) {
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"") ;
 		}

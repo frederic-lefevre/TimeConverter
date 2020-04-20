@@ -1,5 +1,6 @@
 package org.fl.timeConverter;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.Month;
 import java.time.MonthDay;
@@ -7,9 +8,12 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class TimeUtils {
@@ -52,5 +56,35 @@ public class TimeUtils {
 			daysSet.addElement(formatter, MonthDay.from(zoneDateTimeForTheDay), zoneDateTimeForTheDay) ;
 		}
 		return daysSet ;
+	}
+	
+	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second, int nano, ZoneId zone, Logger log) {
+		
+		ZonedDateTime zdt ;
+		try {		
+			zdt = ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone) ;
+		} catch (DateTimeException e) {
+			
+			try {
+				DateTimeFormatter f = DateTimeFormatter.ofPattern ( "d/M/uuuu HH:mm:ss.n VV" ).withResolverStyle(ResolverStyle.SMART);
+			
+				zdt = ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f) ;
+			} catch (Exception e2) {
+				log.log(Level.SEVERE, "Excepion parsing date " + buildDate(year, month, day, hour, minute, second, nano, zone), e2);
+				zdt = null ;
+			}
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
+			zdt = null ;
+		}
+		return zdt ;
+	}
+	
+	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano, ZoneId zone) {
+		StringBuilder dateString = new StringBuilder() ;
+		dateString.append(day).append("/").append(month).append("/").append(year).append(" ") ;
+		dateString.append(hour).append(":").append(minute).append(":").append(second).append(".").append(nano) ;
+		dateString.append(" ").append(zone) ;
+		return dateString;
 	}
 }
