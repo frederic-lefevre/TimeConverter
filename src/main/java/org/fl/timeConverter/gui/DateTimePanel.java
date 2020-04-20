@@ -77,6 +77,10 @@ public class DateTimePanel extends JPanel {
 	public void addActionListeners(MillisecondsAndZonePanel mzp, JLabel il) {
 		millisecondsAndZonePanel = mzp ;
 		infoLabel = il ;
+		addActionListeners() ;
+	}
+	
+	private void addActionListeners() {
 		daysField.addActionListener(dateTimeListener) ;
 		monthsField.addActionListener(dateTimeListener) ;
 		yearField.addActionListener(dateTimeListener) ;
@@ -86,7 +90,7 @@ public class DateTimePanel extends JPanel {
 		nanoField.addActionListener(dateTimeListener) ;
 	}
 	
-	public void removeActionListeners() {
+	private void removeActionListeners() {
 		
 		daysField.removeActionListener(dateTimeListener);
 		monthsField.removeActionListener(dateTimeListener) ;
@@ -133,8 +137,10 @@ public class DateTimePanel extends JPanel {
 	}
 	
 	public void setDateTimeFields(ZonedDateTime zdt) {
-		// Update day field
-
+		
+		// Avoid to trigger listener in loop between dateTime and milli
+		removeActionListeners();
+		
 		daysField.removeAllItems();
 		DisplayableTemporalSet daysOfMonth = TimeUtils.getAllDaysOfMonth(zdt) ;
 		daysFieldModel.addAll(daysOfMonth.getVector());					
@@ -151,5 +157,7 @@ public class DateTimePanel extends JPanel {
 		minuteField.setText(Integer.toString(zdt.getMinute())) ;
 		secondField.setText(Integer.toString(zdt.getSecond())) ;
 		nanoField.setText(Integer.toString(zdt.getNano()/1000000)) ;
+		
+		addActionListeners() ;
 	}
 }
