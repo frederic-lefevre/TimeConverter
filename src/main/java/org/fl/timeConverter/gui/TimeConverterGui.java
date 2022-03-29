@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.ibm.lge.fl.util.RunningContext;
+import org.fl.util.RunningContext;
 
 public class TimeConverterGui  extends JFrame {
 	
