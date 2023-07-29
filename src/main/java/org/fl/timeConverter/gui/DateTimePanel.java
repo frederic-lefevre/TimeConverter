@@ -31,7 +31,6 @@ import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
-import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -60,17 +59,14 @@ public class DateTimePanel extends JPanel {
 
 	private final DisplayableTemporalSet months;
 
-	private final Logger logger;
-
 	private final DateTimeListener dateTimeListener;
 
 	private MillisecondsAndZonePanel millisecondsAndZonePanel;
 	private JLabel infoLabel;
 
-	public DateTimePanel(Logger l) {
+	public DateTimePanel() {
 		super();
 
-		logger = l;
 		dateTimeListener = new DateTimeListener();
 
 		months = TimeUtils.getMonths();
@@ -150,7 +146,7 @@ public class DateTimePanel extends JPanel {
 
 			ZoneId zo = mzp.getZoneId();
 
-			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n * 1000000, zo, logger);
+			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n * 1000000, zo);
 			if (zdt == null) {
 				timeField.setText("Problème dans l'évaluation de la date");
 			} else {

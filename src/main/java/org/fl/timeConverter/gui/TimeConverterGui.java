@@ -87,7 +87,7 @@ public class TimeConverterGui  extends JFrame {
 			datePane.add(timeField);
 			add(datePane);
 
-			DateTimePanel dateTimePanel = new DateTimePanel(logger);
+			DateTimePanel dateTimePanel = new DateTimePanel();
 			add(dateTimePanel);
 
 			setFontForAll(this, new Font("Verdana", Font.BOLD, 16));

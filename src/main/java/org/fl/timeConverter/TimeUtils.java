@@ -42,6 +42,8 @@ import java.util.stream.Collectors;
 
 public class TimeUtils {
 
+	private static final Logger log = Config.getLogger();
+	
 	// Convert milliseconds since 1/1/1970 UTC in a date string in the zone ZoneId
 	public static String convertTime(long milli, ZoneId zoneId, String datePattern) {
 		return DateTimeFormatter.ofPattern(datePattern).localizedBy(Locale.FRENCH).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
@@ -81,7 +83,7 @@ public class TimeUtils {
 	}
 
 	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second,
-			int nano, ZoneId zone, Logger log) {
+			int nano, ZoneId zone) {
 
 		ZonedDateTime zdt;
 		try {

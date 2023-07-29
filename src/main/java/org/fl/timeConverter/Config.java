@@ -24,8 +24,6 @@ SOFTWARE.
 
 package org.fl.timeConverter;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 import org.fl.util.RunningContext;
@@ -42,17 +40,10 @@ public class Config {
 	}
 
 	public static void initConfig(String propertyFile) {
-		
-		try {
 			
-			runningContext = new RunningContext("GedcomProcess", null, new URI(propertyFile));
-			timeConverterLogger = runningContext.getpLog();
-			
-		} catch (URISyntaxException e) {
-			System.out.println("Exception caught in Config init (see default prop file processing)");
-			e.printStackTrace();
-		}
-		
+		runningContext = new RunningContext("GedcomProcess", null, propertyFile);
+		timeConverterLogger = runningContext.getpLog();
+
 		initialized = true;
 	}
 		
