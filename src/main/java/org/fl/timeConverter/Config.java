@@ -24,24 +24,40 @@ SOFTWARE.
 
 package org.fl.timeConverter;
 
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.LinkedHashMap;
-import java.util.Vector;
+import java.util.logging.Logger;
 
-public class DisplayableTemporalSet extends LinkedHashMap<TemporalAccessor, DisplayableTemporal> {
+import org.fl.util.RunningContext;
 
-	private static final long serialVersionUID = 1L;
+public class Config {
 
-	public Vector<DisplayableTemporal> getVector() {
-		return new Vector<DisplayableTemporal>(this.values());
+	public static final String DEFAULT_PROP_FILE = "timeConverter.properties";
+	
+	private static RunningContext runningContext;
+	private static Logger timeConverterLogger;
+	private static boolean initialized = false;
+	
+	private Config() {
 	}
 
-	public void addElement(DateTimeFormatter formatter, TemporalAccessor time) {
-		addElement(formatter, time, time);
-	}
+	public static void initConfig(String propertyFile) {
+			
+		runningContext = new RunningContext("GedcomProcess", null, propertyFile);
+		timeConverterLogger = runningContext.getpLog();
 
-	public void addElement(DateTimeFormatter formatter, TemporalAccessor key, TemporalAccessor time) {
-		put(key, new DisplayableTemporal(formatter, time));
+		initialized = true;
+	}
+		
+	public static RunningContext getRunningContext() {
+		if (!initialized) {
+			initConfig(DEFAULT_PROP_FILE);
+		}
+		return runningContext;
+	}
+	
+	public static Logger getLogger() {
+		if (!initialized) {
+			initConfig(DEFAULT_PROP_FILE);
+		}
+		return timeConverterLogger;
 	}
 }
