@@ -24,12 +24,11 @@ SOFTWARE.
 
 package org.fl.timeConverter.TimeConverter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.ZoneId;
 import java.util.Set;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 import org.fl.timeConverter.TimeUtils;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class TimeUtilsTest {
 		String zeroTime = "jeudi 01 janvier 1970  01:00:00.000 Europe/Paris";
 		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of(ZoneId.SHORT_IDS.get("ECT")), datePattern);
 
-		assertEquals(zeroTime, beginTimeAsString);
+		assertThat(beginTimeAsString).isEqualTo(zeroTime);
 
 	}
 
@@ -54,7 +53,7 @@ class TimeUtilsTest {
 		String someTime = "mercredi 15 avril 2020  07:47:06.673 UTC";
 		String beginTimeAsString = TimeUtils.convertTime(1586936826673L, ZoneId.of("UTC"), datePattern);
 
-		assertEquals(someTime, beginTimeAsString);
+		assertThat(beginTimeAsString).isEqualTo(someTime);
 
 	}
 
@@ -64,13 +63,13 @@ class TimeUtilsTest {
 		Vector<ZoneId> zones = TimeUtils.getZoneIds();
 		Set<String> zonesAsSet = ZoneId.getAvailableZoneIds();
 
-		assertNotNull(zones);
-		assertNotNull(zonesAsSet);
-		assertEquals(zonesAsSet.size(), zones.size());
-
-		assertTrue(zones.containsAll(zonesAsSet.stream().map(z -> ZoneId.of(z)).collect(Collectors.toList())));
-
-		assertTrue(zonesAsSet.containsAll(zones.stream().map(z -> z.getId()).collect(Collectors.toList())));
+		assertThat(zonesAsSet)
+			.isNotNull()
+			.hasSameSizeAs(zones)
+			.allSatisfy(z -> zones.contains(ZoneId.of(z)));
+		
+		assertThat(zones).isNotNull()
+			.allSatisfy(zone -> zonesAsSet.contains(zone.getId()));
 	}
 
 	@Test
