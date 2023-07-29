@@ -41,10 +41,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.fl.timeConverter.Config;
 import org.fl.timeConverter.TimeUtils;
 
 public class MillisecondsAndZonePanel extends JPanel {
 
+	private static final Logger logger = Config.getLogger();
+	
 	private static final long serialVersionUID = 1L;
 
 	private final JTextField millisField;
@@ -52,15 +55,13 @@ public class MillisecondsAndZonePanel extends JPanel {
 
 	private final MillisAndZoneListener millisAndZoneListener;
 
-	private final Logger logger;
-
 	private DateTimePanel dateTimePanel;
 	private JLabel timeField;
 
-	public MillisecondsAndZonePanel(Logger l) {
+	public MillisecondsAndZonePanel() {
+		
 		super();
 
-		logger = l;
 		millisAndZoneListener = new MillisAndZoneListener();
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

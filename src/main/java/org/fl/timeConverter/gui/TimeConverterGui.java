@@ -29,7 +29,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -66,7 +65,6 @@ public class TimeConverterGui  extends JFrame {
 		// access to properties and logger
 		Config.initConfig(Config.DEFAULT_PROP_FILE);
 		RunningContext runningContext = Config.getRunningContext();
-		Logger logger = Config.getLogger();
 		
 		if (runningContext != null) {
 
@@ -75,7 +73,7 @@ public class TimeConverterGui  extends JFrame {
 			setTitle("Time converter");
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel(logger);
+			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
 			add(milliAndZonePane);
 
 			JPanel datePane = new JPanel();
