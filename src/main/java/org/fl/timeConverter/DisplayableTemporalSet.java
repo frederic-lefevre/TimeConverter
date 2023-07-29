@@ -33,15 +33,15 @@ public class DisplayableTemporalSet extends LinkedHashMap<TemporalAccessor, Disp
 
 	private static final long serialVersionUID = 1L;
 
-	public Vector<DisplayableTemporal> getVector() {				
-		return new Vector<DisplayableTemporal>(this.values()) ;
+	public Vector<DisplayableTemporal> getVector() {
+		return new Vector<DisplayableTemporal>(this.values());
 	}
-	
+
 	public void addElement(DateTimeFormatter formatter, TemporalAccessor time) {
 		addElement(formatter, time, time);
 	}
-	
+
 	public void addElement(DateTimeFormatter formatter, TemporalAccessor key, TemporalAccessor time) {
-		put(key, new DisplayableTemporal(formatter, time)) ;
+		put(key, new DisplayableTemporal(formatter, time));
 	}
 }

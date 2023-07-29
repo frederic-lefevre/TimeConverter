@@ -49,66 +49,69 @@ public class TimeUtils {
 	
 	// Get all ZoneId in a vector
 	public static Vector<ZoneId> getZoneIds() {
-		return ZoneId.getAvailableZoneIds().stream()
-					.sorted()
-					.map((z) -> ZoneId.of(z))
-					.collect(Collectors.toCollection(Vector::new)) ;
+		return ZoneId.getAvailableZoneIds().stream().sorted().map((z) -> ZoneId.of(z))
+				.collect(Collectors.toCollection(Vector::new));
 	}
-	
+
 	// Get all months
 	public static DisplayableTemporalSet getMonths() {
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM").localizedBy(Locale.FRENCH) ;
-		DisplayableTemporalSet monthsSet = new DisplayableTemporalSet() ;
-		Month[] months = Month.values() ;
-		for (Month month : months) {			
-			monthsSet.addElement(formatter, month) ;
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM").localizedBy(Locale.FRENCH);
+		DisplayableTemporalSet monthsSet = new DisplayableTemporalSet();
+		Month[] months = Month.values();
+		for (Month month : months) {
+			monthsSet.addElement(formatter, month);
 		}
-		return monthsSet ;
+		return monthsSet;
 	}
 	
 	// Get all days in the month of a date
 	public static DisplayableTemporalSet getAllDaysOfMonth(ZonedDateTime time) {
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd").localizedBy(Locale.FRENCH) ;
-		DisplayableTemporalSet daysSet = new DisplayableTemporalSet() ;
-		
-		int lastDay = YearMonth.from(time).lengthOfMonth() ;
-		ZonedDateTime zoneDateTimeForTheDay ;
-		for (int day=1; day <= lastDay; day++) {
-			zoneDateTimeForTheDay = time.with(ChronoField.DAY_OF_MONTH, day) ;
-			daysSet.addElement(formatter, MonthDay.from(zoneDateTimeForTheDay), zoneDateTimeForTheDay) ;
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd").localizedBy(Locale.FRENCH);
+		DisplayableTemporalSet daysSet = new DisplayableTemporalSet();
+
+		int lastDay = YearMonth.from(time).lengthOfMonth();
+		ZonedDateTime zoneDateTimeForTheDay;
+		for (int day = 1; day <= lastDay; day++) {
+			zoneDateTimeForTheDay = time.with(ChronoField.DAY_OF_MONTH, day);
+			daysSet.addElement(formatter, MonthDay.from(zoneDateTimeForTheDay), zoneDateTimeForTheDay);
 		}
-		return daysSet ;
+		return daysSet;
 	}
-	
-	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second, int nano, ZoneId zone, Logger log) {
-		
-		ZonedDateTime zdt ;
-		try {		
-			zdt = ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone) ;
+
+	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second,
+			int nano, ZoneId zone, Logger log) {
+
+		ZonedDateTime zdt;
+		try {
+			zdt = ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone);
 		} catch (DateTimeException e) {
-			
+
 			try {
-				DateTimeFormatter f = DateTimeFormatter.ofPattern ( "d/M/uuuu HH:mm:ss.n VV" ).withResolverStyle(ResolverStyle.SMART);
-			
-				zdt = ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f) ;
+				DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
+						.withResolverStyle(ResolverStyle.SMART);
+
+				zdt = ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
 			} catch (Exception e2) {
-				log.log(Level.SEVERE, "Excepion parsing date " + buildDate(year, month, day, hour, minute, second, nano, zone), e2);
-				zdt = null ;
+				log.log(Level.SEVERE,
+						"Excepion parsing date " + buildDate(year, month, day, hour, minute, second, nano, zone), e2);
+				zdt = null;
 			}
 		} catch (Exception e) {
-			log.log(Level.SEVERE, "Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
-			zdt = null ;
+			log.log(Level.SEVERE,
+					"Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
+			zdt = null;
 		}
-		return zdt ;
+		return zdt;
 	}
 	
-	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano, ZoneId zone) {
-		StringBuilder dateString = new StringBuilder() ;
-		dateString.append(day).append("/").append(month).append("/").append(year).append(" ") ;
-		dateString.append(hour).append(":").append(minute).append(":").append(second).append(".").append(nano) ;
-		dateString.append(" ").append(zone) ;
+	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano,
+			ZoneId zone) {
+		StringBuilder dateString = new StringBuilder();
+		dateString.append(day).append("/").append(month).append("/").append(year).append(" ");
+		dateString.append(hour).append(":").append(minute).append(":").append(second).append(".").append(nano);
+		dateString.append(" ").append(zone);
 		return dateString;
 	}
 }

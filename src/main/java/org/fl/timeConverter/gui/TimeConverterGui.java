@@ -58,48 +58,48 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	public final static String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS" ;
-	
-	private JLabel timeField ;
-	
-	private final Logger logger ;
-	
+	public final static String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
+
+	private JLabel timeField;
+
+	private final Logger logger;
+
 	public TimeConverterGui(String propertiesUri) {
 
 		RunningContext runningContext = new RunningContext("TimeConverter", null, propertiesUri);
-		logger = runningContext.getpLog() ;
-		
+		logger = runningContext.getpLog();
+
 		if (runningContext != null) {
-			
+
 			setBounds(50, 50, 1500, 1000);
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setTitle("Time converter") ;
+			setTitle("Time converter");
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-			
-			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel(logger) ;
-			add(milliAndZonePane) ;
-			
-			JPanel datePane = new JPanel() ;
+
+			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel(logger);
+			add(milliAndZonePane);
+
+			JPanel datePane = new JPanel();
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-			timeField = new JLabel() ;
-			timeField.setPreferredSize(new Dimension(600, 30)) ;	
-			timeField.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			datePane.add(new JLabel(" correspond à : ")) ;
-			datePane.add(timeField) ;
-			add (datePane) ;
-			
-			DateTimePanel dateTimePanel = new DateTimePanel(logger) ;			
-			add(dateTimePanel) ;
-			
+			timeField = new JLabel();
+			timeField.setPreferredSize(new Dimension(600, 30));
+			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			datePane.add(new JLabel(" correspond à : "));
+			datePane.add(timeField);
+			add(datePane);
+
+			DateTimePanel dateTimePanel = new DateTimePanel(logger);
+			add(dateTimePanel);
+
 			setFontForAll(this, new Font("Verdana", Font.BOLD, 16));
-			
-			milliAndZonePane.addActionListeners(dateTimePanel, timeField) ;
-			dateTimePanel.addActionListeners(milliAndZonePane, timeField) ;
-			
-			pack() ;
-			
+
+			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
+			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
+
+			pack();
+
 			// init with current time
-			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());			
+			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
 			milliAndZonePane.upDateTimeField();
 		}
 	}

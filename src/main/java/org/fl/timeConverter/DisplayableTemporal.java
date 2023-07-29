@@ -29,17 +29,17 @@ import java.time.temporal.TemporalAccessor;
 
 public class DisplayableTemporal {
 
-	private final DateTimeFormatter dateTimeFormatter ;
-	private final TemporalAccessor temporalAccessor ;
-	
+	private final DateTimeFormatter dateTimeFormatter;
+	private final TemporalAccessor temporalAccessor;
+
 	public DisplayableTemporal(DateTimeFormatter d, TemporalAccessor t) {
-		dateTimeFormatter = d ;
-		temporalAccessor  = t ;
+		dateTimeFormatter = d;
+		temporalAccessor = t;
 	}
-	
+
 	@Override
 	public String toString() {
-		return dateTimeFormatter.format(temporalAccessor) ;
+		return dateTimeFormatter.format(temporalAccessor);
 	}
 
 	public TemporalAccessor getTemporalAccessor() {
