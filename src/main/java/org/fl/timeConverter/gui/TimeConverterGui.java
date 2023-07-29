@@ -37,19 +37,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.fl.timeConverter.Config;
 import org.fl.util.RunningContext;
 
 public class TimeConverterGui  extends JFrame {
 	
 	private static final long serialVersionUID = 2368226038474247064L;
-	
-	private static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimeConverterGui window = new TimeConverterGui(DEFAULT_PROP_FILE);
+					TimeConverterGui window = new TimeConverterGui();
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,13 +61,13 @@ public class TimeConverterGui  extends JFrame {
 
 	private JLabel timeField;
 
-	private final Logger logger;
+	public TimeConverterGui() {
 
-	public TimeConverterGui(String propertiesUri) {
-
-		RunningContext runningContext = new RunningContext("TimeConverter", null, propertiesUri);
-		logger = runningContext.getpLog();
-
+		// access to properties and logger
+		Config.initConfig(Config.DEFAULT_PROP_FILE);
+		RunningContext runningContext = Config.getRunningContext();
+		Logger logger = Config.getLogger();
+		
 		if (runningContext != null) {
 
 			setBounds(50, 50, 1500, 1000);
