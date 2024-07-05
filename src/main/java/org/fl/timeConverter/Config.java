@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2024 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ public class Config {
 	public static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 	
 	private static RunningContext runningContext;
-	private static Logger timeConverterLogger;
+	private static final Logger timeConverterLogger = Logger.getLogger(Config.class.getName());
 	private static boolean initialized = false;
 	
 	private Config() {
@@ -42,7 +42,6 @@ public class Config {
 	public static void initConfig(String propertyFile) {
 			
 		runningContext = new RunningContext("GedcomProcess", null, propertyFile);
-		timeConverterLogger = runningContext.getpLog();
 
 		initialized = true;
 	}
