@@ -24,8 +24,6 @@ SOFTWARE.
 
 package org.fl.timeConverter;
 
-import java.util.logging.Logger;
-
 import org.fl.util.RunningContext;
 
 public class Config {
@@ -33,7 +31,6 @@ public class Config {
 	public static final String DEFAULT_PROP_FILE = "timeConverter.properties";
 	
 	private static RunningContext runningContext;
-	private static final Logger timeConverterLogger = Logger.getLogger(Config.class.getName());
 	private static boolean initialized = false;
 	
 	private Config() {
@@ -52,11 +49,5 @@ public class Config {
 		}
 		return runningContext;
 	}
-	
-	public static Logger getLogger() {
-		if (!initialized) {
-			initConfig(DEFAULT_PROP_FILE);
-		}
-		return timeConverterLogger;
-	}
+
 }

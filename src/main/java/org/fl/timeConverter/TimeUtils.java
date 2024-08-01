@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2024 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 public class TimeUtils {
 
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Logger.getLogger(TimeUtils.class.getName());
 	
 	// Convert milliseconds since 1/1/1970 UTC in a date string in the zone ZoneId
 	public static String convertTime(long milli, ZoneId zoneId, String datePattern) {
