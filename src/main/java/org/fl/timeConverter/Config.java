@@ -41,7 +41,7 @@ public class Config {
 
 	public static void initConfig(String propertyFile) {
 			
-		runningContext = new RunningContext("GedcomProcess", null, propertyFile);
+		runningContext = new RunningContext("org.fl.timeConverter", null, propertyFile);
 
 		initialized = true;
 	}
