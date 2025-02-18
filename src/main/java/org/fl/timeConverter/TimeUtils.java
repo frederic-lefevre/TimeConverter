@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2024 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,12 +46,16 @@ public class TimeUtils {
 	
 	// Convert milliseconds since 1/1/1970 UTC in a date string in the zone ZoneId
 	public static String convertTime(long milli, ZoneId zoneId, String datePattern) {
-		return DateTimeFormatter.ofPattern(datePattern).localizedBy(Locale.FRENCH).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
+		return DateTimeFormatter.ofPattern(datePattern)
+				.localizedBy(Locale.FRENCH)
+				.format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
 	}
 	
 	// Get all ZoneId in a vector
 	public static Vector<ZoneId> getZoneIds() {
-		return ZoneId.getAvailableZoneIds().stream().sorted().map((z) -> ZoneId.of(z))
+		return ZoneId.getAvailableZoneIds().stream()
+				.sorted()
+				.map((z) -> ZoneId.of(z))
 				.collect(Collectors.toCollection(Vector::new));
 	}
 
