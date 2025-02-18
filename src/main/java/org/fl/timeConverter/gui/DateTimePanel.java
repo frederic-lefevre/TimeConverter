@@ -45,7 +45,6 @@ import javax.swing.JTextField;
 
 import org.fl.timeConverter.DisplayableTemporal;
 import org.fl.timeConverter.DisplayableTemporalSet;
-import org.fl.timeConverter.TimeParseException;
 import org.fl.timeConverter.TimeUtils;
 
 public class DateTimePanel extends JPanel {
@@ -140,11 +139,11 @@ public class DateTimePanel extends JPanel {
 		// Get date and time field
 		try {
 			
-			int y = parseTextField(yearField);
-			int h = parseTextField(hourField);
-			int m = parseTextField(minuteField);
-			int s = parseTextField(secondField);
-			int n = parseTextField(milliField);
+			int y = parseTextField(yearField, "une année");
+			int h = parseTextField(hourField, "une heure");
+			int m = parseTextField(minuteField, "une minute");
+			int s = parseTextField(secondField, "une seconde");
+			int n = parseTextField(milliField, "une milliseconde");
 
 			int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor()
 					.get(ChronoField.MONTH_OF_YEAR);
@@ -166,7 +165,7 @@ public class DateTimePanel extends JPanel {
 				infoLabel.setForeground(Color.BLACK);
 				infoLabel.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
 			}
-		} catch (TimeParseException ex) {
+		} catch (NumberFormatException ex) {
 			log.fine(ex.getMessage());
 		} catch (DateTimeParseException ex) {
 			log.fine(ex.getMessage());
@@ -177,13 +176,14 @@ public class DateTimePanel extends JPanel {
 		}
 	}
 
-	private int parseTextField(JTextField field) {
+	private int parseTextField(JTextField field, String fieldName) {
+		String fieldContent = field.getText().strip();
 		try {
 			field.setForeground(Color.BLACK);
-			return TimeUtils.parseYears(field.getText().strip());
+			return Integer.parseInt(fieldContent);
 		} catch (NumberFormatException ex) {
 			infoLabel.setForeground(Color.RED);
-			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
+			infoLabel.setText("Rentrez " + fieldName + " valide: " + fieldContent);
 			field.setForeground(Color.RED);
 			throw ex;
 		}

@@ -40,8 +40,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.fl.timeConverter.TimeParseException.TimeType;
-
 public class TimeUtils {
 
 	private static final Logger log = Logger.getLogger(TimeUtils.class.getName());
@@ -104,34 +102,6 @@ public class TimeUtils {
 			log.log(Level.SEVERE,
 					"Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
 			return null;
-		}
-	}
-	
-	public static int parseYears(String h) {
-		return parseTimeNumber(TimeType.ANNEES, h);
-	}
-	
-	public static int parseHours(String h) {
-		return parseTimeNumber(TimeType.HEURES, h);
-	}
-	
-	public static int parseMinutes(String m) {
-		return parseTimeNumber(TimeType.MINUTES, m);
-	}
-	
-	public static int parseSeconds(String s) {
-		return parseTimeNumber(TimeType.SECONDES, s);
-	}
-	
-	public static int parseMilliSeconds(String m) {
-		return parseTimeNumber(TimeType.MILLISECONES, m);
-	}
-	
-	private static int parseTimeNumber(TimeType timeType, String t) {
-		try {
-			return Integer.parseInt(t);
-		} catch (NumberFormatException ex) {
-			throw new TimeParseException(timeType, t);
 		}
 	}
 	
