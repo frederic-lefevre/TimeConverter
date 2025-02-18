@@ -96,8 +96,12 @@ public class TimeUtils {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
 					.withResolverStyle(ResolverStyle.SMART);
 
-			return ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
-
+			try {
+				return ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
+			} catch (DateTimeException e2) {
+				// Re-throw original exception for better message
+				throw e;
+			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE,
 					"Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);

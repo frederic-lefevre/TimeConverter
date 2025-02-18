@@ -27,11 +27,11 @@ package org.fl.timeConverter.gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DateTimeException;
 import java.time.Month;
 import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -167,7 +167,7 @@ public class DateTimePanel extends JPanel {
 			}
 		} catch (NumberFormatException ex) {
 			log.fine(ex.getMessage());
-		} catch (DateTimeParseException ex) {
+		} catch (DateTimeException ex) {
 			log.fine(ex.getMessage());
 			infoLabel.setForeground(Color.RED);
 			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
