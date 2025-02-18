@@ -135,7 +135,7 @@ public class DateTimePanel extends JPanel {
 		// Get date and time field
 		try {
 			int y = Integer.parseInt(yearField.getText());
-			int h = Integer.parseInt(hourField.getText());
+			int h = TimeUtils.parseHour(hourField.getText());
 			int m = Integer.parseInt(minuteField.getText());
 			int s = Integer.parseInt(secondField.getText());
 			int n = Integer.parseInt(nanoField.getText());
@@ -162,10 +162,11 @@ public class DateTimePanel extends JPanel {
 			}
 		} catch (NumberFormatException ex) {
 			timeField.setForeground(Color.RED);timeField.setForeground(Color.RED);
-			timeField.setText("Rentrez un nombre valide");
+			timeField.setText("Rentrez un nombre valide " + ex.toString());
 		}
 	}
 
+	
 	public void setDateTimeFields(ZonedDateTime zdt) {
 
 		// Avoid to trigger listener in loop between dateTime and milli

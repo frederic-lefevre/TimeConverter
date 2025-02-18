@@ -112,6 +112,10 @@ public class TimeUtils {
 		return zdt;
 	}
 	
+	public static int parseHour(String h) {
+		return Integer.parseInt(h);
+	}
+	
 	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano,
 			ZoneId zone) {
 		StringBuilder dateString = new StringBuilder();
