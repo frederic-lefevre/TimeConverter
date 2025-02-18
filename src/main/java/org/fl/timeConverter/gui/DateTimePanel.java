@@ -133,11 +133,11 @@ public class DateTimePanel extends JPanel {
 
 		// Get date and time field
 		try {
-			int y = TimeUtils.parseYears(yearField.getText());
-			int h = TimeUtils.parseHours(hourField.getText());
-			int m = TimeUtils.parseMinutes(minuteField.getText());
-			int s = TimeUtils.parseSeconds(secondField.getText());
-			int n = TimeUtils.parseMilliSeconds(milliField.getText());
+			int y = TimeUtils.parseYears(yearField.getText().strip());
+			int h = TimeUtils.parseHours(hourField.getText().strip());
+			int m = TimeUtils.parseMinutes(minuteField.getText().strip());
+			int s = TimeUtils.parseSeconds(secondField.getText().strip());
+			int n = TimeUtils.parseMilliSeconds(milliField.getText().strip());
 
 			int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor()
 					.get(ChronoField.MONTH_OF_YEAR);
