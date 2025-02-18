@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.fl.timeConverter.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -129,6 +130,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 				milli = Long.parseLong(millisField.getText());
 			}
 
+			timeField.setForeground(Color.BLACK);
 			timeField.setText(TimeUtils.convertTime(milli, zone, TimeConverterGui.DATE_PATTERN));
 
 			// Get the ZonedDateTime corresponding to the milliseconds and the zone
@@ -139,6 +141,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 			dateTimePanel.setDateTimeFields(zdt);
 
 		} catch (NumberFormatException ex) {
+			timeField.setForeground(Color.RED);
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Exception processing date milli=" + milliText, e);
