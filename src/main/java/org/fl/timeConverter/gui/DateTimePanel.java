@@ -42,6 +42,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.fl.timeConverter.DisplayableTemporal;
 import org.fl.timeConverter.DisplayableTemporalSet;
@@ -87,15 +88,19 @@ public class DateTimePanel extends JPanel {
 		yearField = new JTextField(5);
 		add(yearField);
 		hourField = new JTextField(2);
+		hourField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(hourField);
 		add(new JLabel("h "));
 		minuteField = new JTextField(2);
+		minuteField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(minuteField);
 		add(new JLabel("m "));
 		secondField = new JTextField(2);
+		secondField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(secondField);
 		add(new JLabel("s "));
 		milliField = new JTextField(3);
+		milliField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(milliField);
 		add(new JLabel("ms "));
 	}
