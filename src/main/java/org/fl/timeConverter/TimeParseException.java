@@ -31,7 +31,7 @@ public class TimeParseException extends NumberFormatException {
 	public enum TimeType {ANNEES, HEURES, MINUTES, SECONDES, MILLISECONES};
 	
 	public TimeParseException(TimeType timeType, String value) {
-		super("Le champ " + timeType.name() + " (=" + value + ") est invalide");
+		super("Le champ " + timeType.name() + " (=\"" + value + "\") est invalide");
 	}
 
 }

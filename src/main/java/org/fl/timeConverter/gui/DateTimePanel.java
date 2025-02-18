@@ -112,7 +112,6 @@ public class DateTimePanel extends JPanel {
 	}
 
 	private void removeActionListeners() {
-
 		daysField.removeActionListener(dateTimeListener);
 		monthsField.removeActionListener(dateTimeListener);
 		yearField.removeActionListener(dateTimeListener);
