@@ -32,6 +32,8 @@ import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -42,12 +44,15 @@ import javax.swing.JTextField;
 
 import org.fl.timeConverter.DisplayableTemporal;
 import org.fl.timeConverter.DisplayableTemporalSet;
+import org.fl.timeConverter.TimeParseException;
 import org.fl.timeConverter.TimeUtils;
 
 public class DateTimePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger log = Logger.getLogger(DateTimePanel.class.getName());
+			
 	// Date Time fields
 	private final JComboBox<DisplayableTemporal> daysField;
 	private final DefaultComboBoxModel<DisplayableTemporal> daysFieldModel;
@@ -125,19 +130,20 @@ public class DateTimePanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			updateMilliField(millisecondsAndZonePanel, infoLabel);
+			updateMilliField(millisecondsAndZonePanel);
 		}
 	}
 
-	public void updateMilliField(MillisecondsAndZonePanel mzp, JLabel timeField) {
+	private void updateMilliField(MillisecondsAndZonePanel mzp) {
 
 		// Get date and time field
 		try {
-			int y = TimeUtils.parseYears(yearField.getText().strip());
-			int h = TimeUtils.parseHours(hourField.getText().strip());
-			int m = TimeUtils.parseMinutes(minuteField.getText().strip());
-			int s = TimeUtils.parseSeconds(secondField.getText().strip());
-			int n = TimeUtils.parseMilliSeconds(milliField.getText().strip());
+			
+			int y = parseTextField(yearField);
+			int h = parseTextField(hourField);
+			int m = parseTextField(minuteField);
+			int s = parseTextField(secondField);
+			int n = parseTextField(milliField);
 
 			int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor()
 					.get(ChronoField.MONTH_OF_YEAR);
@@ -148,23 +154,35 @@ public class DateTimePanel extends JPanel {
 
 			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n * 1000000, zo);
 			if (zdt == null) {
-				timeField.setForeground(Color.RED);
-				timeField.setText("Problème dans l'évaluation de la date");
+				infoLabel.setForeground(Color.RED);
+				infoLabel.setText("Problème dans l'évaluation de la date");
 			} else {
 				// Realign fields (useful for day)
 				setDateTimeFields(zdt);
 
 				long milli = zdt.toInstant().toEpochMilli();
 				mzp.setMillisecondsField(milli);
-				timeField.setForeground(Color.BLACK);
-				timeField.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
+				infoLabel.setForeground(Color.BLACK);
+				infoLabel.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
 			}
-		} catch (NumberFormatException ex) {
-			timeField.setForeground(Color.RED);timeField.setForeground(Color.RED);
-			timeField.setText("Rentrez un nombre valide: " + ex.getMessage());
+		} catch (TimeParseException ex) {
+			log.fine(ex.getMessage());
+		} catch (Exception ex) {
+			log.log(Level.SEVERE, "Exception parsing time field", ex);
 		}
 	}
 
+	private int parseTextField(JTextField field) {
+		try {
+			field.setForeground(Color.BLACK);
+			return TimeUtils.parseYears(field.getText().strip());
+		} catch (NumberFormatException ex) {
+			infoLabel.setForeground(Color.RED);
+			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
+			field.setForeground(Color.RED);
+			throw ex;
+		}
+	}
 	
 	public void setDateTimeFields(ZonedDateTime zdt) {
 
