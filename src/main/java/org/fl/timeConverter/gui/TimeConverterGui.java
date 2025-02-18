@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 
 import org.fl.timeConverter.Config;
 import org.fl.util.RunningContext;
+import org.fl.util.swing.ApplicationTabbedPane;
 
 public class TimeConverterGui  extends JFrame {
 	
@@ -56,7 +57,10 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	public final static String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
+	public static final int WINDOW_WIDTH  = 650;
+	public static final int WINDOW_HEIGHT = 500;
+	
+	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
 
 	private JLabel timeField;
 
@@ -68,13 +72,17 @@ public class TimeConverterGui  extends JFrame {
 		
 		if (runningContext != null) {
 
-			setBounds(50, 50, 1500, 1000);
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setTitle("Time converter");
-			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+	   		setBounds(20, 20, WINDOW_WIDTH, WINDOW_HEIGHT);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setTitle("Convertiseur de temps");
+			
+			ApplicationTabbedPane timeConverterTabs = new ApplicationTabbedPane(runningContext);
+			
+			JPanel timeConverterPane = new JPanel();
+			timeConverterPane.setLayout(new BoxLayout(timeConverterPane, BoxLayout.Y_AXIS));
 
 			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
-			add(milliAndZonePane);
+			timeConverterPane.add(milliAndZonePane);
 
 			JPanel datePane = new JPanel();
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
@@ -83,21 +91,26 @@ public class TimeConverterGui  extends JFrame {
 			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			datePane.add(new JLabel(" correspond à : "));
 			datePane.add(timeField);
-			add(datePane);
+			timeConverterPane.add(datePane);
 
 			DateTimePanel dateTimePanel = new DateTimePanel();
-			add(dateTimePanel);
+			timeConverterPane.add(dateTimePanel);
 
-			setFontForAll(this, new Font("Verdana", Font.BOLD, 16));
+			setFontForAll(datePane, new Font("Verdana", Font.BOLD, 16));
 
 			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
 			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
 
-			pack();
+			//datePane.pack();
 
 			// init with current time
 			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
 			milliAndZonePane.upDateTimeField();
+			
+			timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
+			timeConverterTabs.setSelectedIndex(0);
+			
+			getContentPane().add(timeConverterTabs) ;
 		}
 	}
 	
