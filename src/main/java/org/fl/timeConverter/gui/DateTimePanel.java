@@ -56,7 +56,7 @@ public class DateTimePanel extends JPanel {
 	private final JTextField hourField;
 	private final JTextField minuteField;
 	private final JTextField secondField;
-	private final JTextField nanoField;
+	private final JTextField milliField;
 
 	private final DisplayableTemporalSet months;
 
@@ -90,8 +90,8 @@ public class DateTimePanel extends JPanel {
 		secondField = new JTextField(2);
 		add(secondField);
 		add(new JLabel("s "));
-		nanoField = new JTextField(3);
-		add(nanoField);
+		milliField = new JTextField(3);
+		add(milliField);
 		add(new JLabel("ms "));
 	}
 
@@ -108,7 +108,7 @@ public class DateTimePanel extends JPanel {
 		hourField.addActionListener(dateTimeListener);
 		minuteField.addActionListener(dateTimeListener);
 		secondField.addActionListener(dateTimeListener);
-		nanoField.addActionListener(dateTimeListener);
+		milliField.addActionListener(dateTimeListener);
 	}
 
 	private void removeActionListeners() {
@@ -119,7 +119,7 @@ public class DateTimePanel extends JPanel {
 		hourField.removeActionListener(dateTimeListener);
 		minuteField.removeActionListener(dateTimeListener);
 		secondField.removeActionListener(dateTimeListener);
-		nanoField.removeActionListener(dateTimeListener);
+		milliField.removeActionListener(dateTimeListener);
 	}
 
 	private class DateTimeListener implements ActionListener {
@@ -134,11 +134,11 @@ public class DateTimePanel extends JPanel {
 
 		// Get date and time field
 		try {
-			int y = Integer.parseInt(yearField.getText());
-			int h = TimeUtils.parseHour(hourField.getText());
-			int m = Integer.parseInt(minuteField.getText());
-			int s = Integer.parseInt(secondField.getText());
-			int n = Integer.parseInt(nanoField.getText());
+			int y = TimeUtils.parseYears(yearField.getText());
+			int h = TimeUtils.parseHours(hourField.getText());
+			int m = TimeUtils.parseMinutes(minuteField.getText());
+			int s = TimeUtils.parseSeconds(secondField.getText());
+			int n = TimeUtils.parseMilliSeconds(milliField.getText());
 
 			int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor()
 					.get(ChronoField.MONTH_OF_YEAR);
@@ -187,7 +187,7 @@ public class DateTimePanel extends JPanel {
 		hourField.setText(Integer.toString(zdt.getHour()));
 		minuteField.setText(Integer.toString(zdt.getMinute()));
 		secondField.setText(Integer.toString(zdt.getSecond()));
-		nanoField.setText(Integer.toString(zdt.getNano() / 1000000));
+		milliField.setText(Integer.toString(zdt.getNano() / 1000000));
 
 		addActionListeners();
 	}

@@ -28,7 +28,7 @@ public class TimeParseException extends NumberFormatException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public enum TimeType {HEURES, MINUTES, SECONDES, MILLISECONES};
+	public enum TimeType {ANNEES, HEURES, MINUTES, SECONDES, MILLISECONES};
 	
 	public TimeParseException(TimeType timeType, String value) {
 		super("Le champ " + timeType.name() + " est invalide");

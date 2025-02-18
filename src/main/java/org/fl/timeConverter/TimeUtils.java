@@ -114,11 +114,31 @@ public class TimeUtils {
 		return zdt;
 	}
 	
-	public static int parseHour(String h) {
+	public static int parseYears(String h) {
+		return parseTimeNumber(TimeType.ANNEES, h);
+	}
+	
+	public static int parseHours(String h) {
+		return parseTimeNumber(TimeType.HEURES, h);
+	}
+	
+	public static int parseMinutes(String m) {
+		return parseTimeNumber(TimeType.MINUTES, m);
+	}
+	
+	public static int parseSeconds(String s) {
+		return parseTimeNumber(TimeType.SECONDES, s);
+	}
+	
+	public static int parseMilliSeconds(String m) {
+		return parseTimeNumber(TimeType.MILLISECONES, m);
+	}
+	
+	private static int parseTimeNumber(TimeType timeType, String t) {
 		try {
-			return Integer.parseInt(h);
+			return Integer.parseInt(t);
 		} catch (NumberFormatException ex) {
-			throw new TimeParseException(TimeType.HEURES, h);
+			throw new TimeParseException(timeType, t);
 		}
 	}
 	
