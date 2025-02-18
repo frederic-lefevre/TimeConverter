@@ -162,7 +162,7 @@ public class DateTimePanel extends JPanel {
 			}
 		} catch (NumberFormatException ex) {
 			timeField.setForeground(Color.RED);timeField.setForeground(Color.RED);
-			timeField.setText("Rentrez un nombre valide " + ex.toString());
+			timeField.setText("Rentrez un nombre valide: " + ex.getMessage());
 		}
 	}
 

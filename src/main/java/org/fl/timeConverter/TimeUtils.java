@@ -40,6 +40,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.fl.timeConverter.TimeParseException.TimeType;
+
 public class TimeUtils {
 
 	private static final Logger log = Logger.getLogger(TimeUtils.class.getName());
@@ -113,7 +115,11 @@ public class TimeUtils {
 	}
 	
 	public static int parseHour(String h) {
-		return Integer.parseInt(h);
+		try {
+			return Integer.parseInt(h);
+		} catch (NumberFormatException ex) {
+			throw new TimeParseException(TimeType.HEURES, h);
+		}
 	}
 	
 	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano,
