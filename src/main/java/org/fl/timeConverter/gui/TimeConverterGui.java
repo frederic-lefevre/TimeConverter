@@ -57,8 +57,8 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	public static final int WINDOW_WIDTH  = 1000;
-	public static final int WINDOW_HEIGHT = 500;
+	public static final int WINDOW_WIDTH = 1000;
+	public static final int WINDOW_HEIGHT = 300;
 	
 	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
 
@@ -100,8 +100,6 @@ public class TimeConverterGui  extends JFrame {
 
 			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
 			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
-
-			//datePane.pack();
 
 			// init with current time
 			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
