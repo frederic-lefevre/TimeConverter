@@ -29,6 +29,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -44,6 +45,8 @@ public class TimeConverterGui  extends JFrame {
 	
 	private static final long serialVersionUID = 2368226038474247064L;
 
+	private static final Logger log = Logger.getLogger(TimeConverterGui.class.getName());
+			
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -108,7 +111,10 @@ public class TimeConverterGui  extends JFrame {
 			timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
 			timeConverterTabs.setSelectedIndex(0);
 			
-			getContentPane().add(timeConverterTabs) ;
+			getContentPane().add(timeConverterTabs);
+			
+		} else {
+			log.severe("Null runningContext");
 		}
 	}
 	
