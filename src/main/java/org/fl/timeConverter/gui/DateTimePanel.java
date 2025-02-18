@@ -31,6 +31,7 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -167,6 +168,10 @@ public class DateTimePanel extends JPanel {
 			}
 		} catch (TimeParseException ex) {
 			log.fine(ex.getMessage());
+		} catch (DateTimeParseException ex) {
+			log.fine(ex.getMessage());
+			infoLabel.setForeground(Color.RED);
+			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
 		} catch (Exception ex) {
 			log.log(Level.SEVERE, "Exception parsing time field", ex);
 		}

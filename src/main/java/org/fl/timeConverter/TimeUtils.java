@@ -91,27 +91,20 @@ public class TimeUtils {
 	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second,
 			int nano, ZoneId zone) {
 
-		ZonedDateTime zdt;
 		try {
-			zdt = ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone);
+			return ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone);
 		} catch (DateTimeException e) {
 
-			try {
-				DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
-						.withResolverStyle(ResolverStyle.SMART);
+			DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
+					.withResolverStyle(ResolverStyle.SMART);
 
-				zdt = ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
-			} catch (Exception e2) {
-				log.log(Level.SEVERE,
-						"Excepion parsing date " + buildDate(year, month, day, hour, minute, second, nano, zone), e2);
-				zdt = null;
-			}
+			return ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
+
 		} catch (Exception e) {
 			log.log(Level.SEVERE,
 					"Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
-			zdt = null;
+			return null;
 		}
-		return zdt;
 	}
 	
 	public static int parseYears(String h) {
