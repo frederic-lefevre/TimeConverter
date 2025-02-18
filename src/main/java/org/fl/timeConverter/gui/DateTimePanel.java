@@ -177,13 +177,12 @@ public class DateTimePanel extends JPanel {
 	}
 
 	private int parseTextField(JTextField field, String fieldName) {
-		String fieldContent = field.getText().strip();
 		try {
 			field.setForeground(Color.BLACK);
-			return Integer.parseInt(fieldContent);
+			return Integer.parseInt(field.getText().strip());
 		} catch (NumberFormatException ex) {
 			infoLabel.setForeground(Color.RED);
-			infoLabel.setText("Rentrez " + fieldName + " valide: " + fieldContent);
+			infoLabel.setText("Rentrez " + fieldName + " valide");
 			field.setForeground(Color.RED);
 			throw ex;
 		}
