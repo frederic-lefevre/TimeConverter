@@ -57,7 +57,7 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	public static final int WINDOW_WIDTH  = 650;
+	public static final int WINDOW_WIDTH  = 1000;
 	public static final int WINDOW_HEIGHT = 500;
 	
 	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
@@ -96,7 +96,7 @@ public class TimeConverterGui  extends JFrame {
 			DateTimePanel dateTimePanel = new DateTimePanel();
 			timeConverterPane.add(dateTimePanel);
 
-			setFontForAll(datePane, new Font("Verdana", Font.BOLD, 16));
+			setFontForAll(timeConverterPane, new Font("Verdana", Font.BOLD, 16));
 
 			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
 			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
