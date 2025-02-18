@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.fl.timeConverter.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Month;
@@ -148,6 +149,7 @@ public class DateTimePanel extends JPanel {
 
 			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n * 1000000, zo);
 			if (zdt == null) {
+				timeField.setForeground(Color.RED);
 				timeField.setText("Problème dans l'évaluation de la date");
 			} else {
 				// Realign fields (useful for day)
@@ -155,9 +157,11 @@ public class DateTimePanel extends JPanel {
 
 				long milli = zdt.toInstant().toEpochMilli();
 				mzp.setMillisecondsField(milli);
+				timeField.setForeground(Color.BLACK);
 				timeField.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
 			}
 		} catch (NumberFormatException ex) {
+			timeField.setForeground(Color.RED);timeField.setForeground(Color.RED);
 			timeField.setText("Rentrez un nombre valide");
 		}
 	}

@@ -112,7 +112,7 @@ public class TimeConverterGui  extends JFrame {
 			timeConverterTabs.setSelectedIndex(0);
 			
 			getContentPane().add(timeConverterTabs);
-			
+
 		} else {
 			log.severe("Null runningContext");
 		}
