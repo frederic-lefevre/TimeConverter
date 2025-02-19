@@ -24,11 +24,14 @@ SOFTWARE.
 
 package org.fl.timeConverter;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.fl.util.RunningContext;
 
 public class Config {
 
-	public static final String DEFAULT_PROP_FILE = "timeConverter.properties";
+	public static final String DEFAULT_PROP_FILE = "file:///C:/FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
 	
 	private static RunningContext runningContext;
 	private static boolean initialized = false;
@@ -36,14 +39,14 @@ public class Config {
 	private Config() {
 	}
 
-	public static void initConfig(String propertyFile) {
+	public static void initConfig(String propertyFile) throws URISyntaxException {
 			
-		runningContext = new RunningContext("org.fl.timeConverter", null, propertyFile);
+		runningContext = new RunningContext("org.fl.timeConverter", null, new URI(propertyFile));
 
 		initialized = true;
 	}
 		
-	public static RunningContext getRunningContext() {
+	public static RunningContext getRunningContext() throws URISyntaxException {
 		if (!initialized) {
 			initConfig(DEFAULT_PROP_FILE);
 		}

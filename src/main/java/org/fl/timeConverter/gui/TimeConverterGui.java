@@ -29,6 +29,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -67,7 +68,7 @@ public class TimeConverterGui  extends JFrame {
 
 	private JLabel timeField;
 
-	public TimeConverterGui() {
+	public TimeConverterGui() throws URISyntaxException {
 
 		// access to properties and logger
 		Config.initConfig(Config.DEFAULT_PROP_FILE);
