@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2023 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,17 @@ SOFTWARE.
 
 package org.fl.timeConverter.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DateTimeException;
 import java.time.Month;
 import java.time.MonthDay;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -38,6 +42,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.fl.timeConverter.DisplayableTemporal;
 import org.fl.timeConverter.DisplayableTemporalSet;
@@ -47,6 +52,8 @@ public class DateTimePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger log = Logger.getLogger(DateTimePanel.class.getName());
+			
 	// Date Time fields
 	private final JComboBox<DisplayableTemporal> daysField;
 	private final DefaultComboBoxModel<DisplayableTemporal> daysFieldModel;
@@ -55,7 +62,7 @@ public class DateTimePanel extends JPanel {
 	private final JTextField hourField;
 	private final JTextField minuteField;
 	private final JTextField secondField;
-	private final JTextField nanoField;
+	private final JTextField milliField;
 
 	private final DisplayableTemporalSet months;
 
@@ -81,16 +88,20 @@ public class DateTimePanel extends JPanel {
 		yearField = new JTextField(5);
 		add(yearField);
 		hourField = new JTextField(2);
+		hourField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(hourField);
 		add(new JLabel("h "));
 		minuteField = new JTextField(2);
+		minuteField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(minuteField);
 		add(new JLabel("m "));
 		secondField = new JTextField(2);
+		secondField.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(secondField);
 		add(new JLabel("s "));
-		nanoField = new JTextField(3);
-		add(nanoField);
+		milliField = new JTextField(3);
+		milliField.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(milliField);
 		add(new JLabel("ms "));
 	}
 
@@ -107,37 +118,37 @@ public class DateTimePanel extends JPanel {
 		hourField.addActionListener(dateTimeListener);
 		minuteField.addActionListener(dateTimeListener);
 		secondField.addActionListener(dateTimeListener);
-		nanoField.addActionListener(dateTimeListener);
+		milliField.addActionListener(dateTimeListener);
 	}
 
 	private void removeActionListeners() {
-
 		daysField.removeActionListener(dateTimeListener);
 		monthsField.removeActionListener(dateTimeListener);
 		yearField.removeActionListener(dateTimeListener);
 		hourField.removeActionListener(dateTimeListener);
 		minuteField.removeActionListener(dateTimeListener);
 		secondField.removeActionListener(dateTimeListener);
-		nanoField.removeActionListener(dateTimeListener);
+		milliField.removeActionListener(dateTimeListener);
 	}
 
 	private class DateTimeListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			updateMilliField(millisecondsAndZonePanel, infoLabel);
+			updateMilliField(millisecondsAndZonePanel);
 		}
 	}
 
-	public void updateMilliField(MillisecondsAndZonePanel mzp, JLabel timeField) {
+	private void updateMilliField(MillisecondsAndZonePanel mzp) {
 
 		// Get date and time field
 		try {
-			int y = Integer.parseInt(yearField.getText());
-			int h = Integer.parseInt(hourField.getText());
-			int m = Integer.parseInt(minuteField.getText());
-			int s = Integer.parseInt(secondField.getText());
-			int n = Integer.parseInt(nanoField.getText());
+			
+			int y = parseTextField(yearField, "une année");
+			int h = parseTextField(hourField, "une heure");
+			int m = parseTextField(minuteField, "une minute");
+			int s = parseTextField(secondField, "une seconde");
+			int n = parseTextField(milliField, "une milliseconde");
 
 			int mo = ((DisplayableTemporal) monthsField.getSelectedItem()).getTemporalAccessor()
 					.get(ChronoField.MONTH_OF_YEAR);
@@ -148,20 +159,40 @@ public class DateTimePanel extends JPanel {
 
 			ZonedDateTime zdt = TimeUtils.guessZonedDateTimeOf(y, mo, da, h, m, s, n * 1000000, zo);
 			if (zdt == null) {
-				timeField.setText("Problème dans l'évaluation de la date");
+				infoLabel.setForeground(Color.RED);
+				infoLabel.setText("Problème dans l'évaluation de la date");
 			} else {
 				// Realign fields (useful for day)
 				setDateTimeFields(zdt);
 
 				long milli = zdt.toInstant().toEpochMilli();
 				mzp.setMillisecondsField(milli);
-				timeField.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
+				infoLabel.setForeground(Color.BLACK);
+				infoLabel.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
 			}
 		} catch (NumberFormatException ex) {
-			timeField.setText("Rentrez un nombre valide");
+			log.fine(ex.getMessage());
+		} catch (DateTimeException ex) {
+			log.fine(ex.getMessage());
+			infoLabel.setForeground(Color.RED);
+			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
+		} catch (Exception ex) {
+			log.log(Level.SEVERE, "Exception parsing time field", ex);
 		}
 	}
 
+	private int parseTextField(JTextField field, String fieldName) {
+		try {
+			field.setForeground(Color.BLACK);
+			return Integer.parseInt(field.getText().strip());
+		} catch (NumberFormatException ex) {
+			infoLabel.setForeground(Color.RED);
+			infoLabel.setText("Rentrez " + fieldName + " valide");
+			field.setForeground(Color.RED);
+			throw ex;
+		}
+	}
+	
 	public void setDateTimeFields(ZonedDateTime zdt) {
 
 		// Avoid to trigger listener in loop between dateTime and milli
@@ -182,7 +213,7 @@ public class DateTimePanel extends JPanel {
 		hourField.setText(Integer.toString(zdt.getHour()));
 		minuteField.setText(Integer.toString(zdt.getMinute()));
 		secondField.setText(Integer.toString(zdt.getSecond()));
-		nanoField.setText(Integer.toString(zdt.getNano() / 1000000));
+		milliField.setText(Integer.toString(zdt.getNano() / 1000000));
 
 		addActionListeners();
 	}

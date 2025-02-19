@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2024 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,12 +46,16 @@ public class TimeUtils {
 	
 	// Convert milliseconds since 1/1/1970 UTC in a date string in the zone ZoneId
 	public static String convertTime(long milli, ZoneId zoneId, String datePattern) {
-		return DateTimeFormatter.ofPattern(datePattern).localizedBy(Locale.FRENCH).format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
+		return DateTimeFormatter.ofPattern(datePattern)
+				.localizedBy(Locale.FRENCH)
+				.format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
 	}
 	
 	// Get all ZoneId in a vector
 	public static Vector<ZoneId> getZoneIds() {
-		return ZoneId.getAvailableZoneIds().stream().sorted().map((z) -> ZoneId.of(z))
+		return ZoneId.getAvailableZoneIds().stream()
+				.sorted()
+				.map((z) -> ZoneId.of(z))
 				.collect(Collectors.toCollection(Vector::new));
 	}
 
@@ -85,27 +89,24 @@ public class TimeUtils {
 	public static ZonedDateTime guessZonedDateTimeOf(int year, int month, int day, int hour, int minute, int second,
 			int nano, ZoneId zone) {
 
-		ZonedDateTime zdt;
 		try {
-			zdt = ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone);
+			return ZonedDateTime.of(year, month, day, hour, minute, second, nano, zone);
 		} catch (DateTimeException e) {
 
-			try {
-				DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
-						.withResolverStyle(ResolverStyle.SMART);
+			DateTimeFormatter f = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss.n VV")
+					.withResolverStyle(ResolverStyle.SMART);
 
-				zdt = ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
-			} catch (Exception e2) {
-				log.log(Level.SEVERE,
-						"Excepion parsing date " + buildDate(year, month, day, hour, minute, second, nano, zone), e2);
-				zdt = null;
+			try {
+				return ZonedDateTime.parse(buildDate(year, month, day, hour, minute, second, nano, zone), f);
+			} catch (DateTimeException e2) {
+				// Re-throw original exception for better message
+				throw e;
 			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE,
 					"Excepion converting date " + buildDate(year, month, day, hour, minute, second, nano, zone), e);
-			zdt = null;
+			return null;
 		}
-		return zdt;
 	}
 	
 	private static StringBuilder buildDate(int year, int month, int day, int hour, int minute, int second, int nano,

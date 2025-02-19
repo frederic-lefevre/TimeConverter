@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2024 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.fl.timeConverter.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +42,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.fl.timeConverter.Config;
 import org.fl.timeConverter.TimeUtils;
 
 public class MillisecondsAndZonePanel extends JPanel {
@@ -130,6 +130,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 				milli = Long.parseLong(millisField.getText());
 			}
 
+			timeField.setForeground(Color.BLACK);
 			timeField.setText(TimeUtils.convertTime(milli, zone, TimeConverterGui.DATE_PATTERN));
 
 			// Get the ZonedDateTime corresponding to the milliseconds and the zone
@@ -140,6 +141,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 			dateTimePanel.setDateTimeFields(zdt);
 
 		} catch (NumberFormatException ex) {
+			timeField.setForeground(Color.RED);
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Exception processing date milli=" + milliText, e);
