@@ -171,9 +171,9 @@ public class DateTimePanel extends JPanel {
 				infoLabel.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
 			}
 		} catch (NumberFormatException ex) {
-			log.fine(ex.getMessage());
+			log.log(Level.FINE, "Invalid user entry", ex);
 		} catch (DateTimeException ex) {
-			log.fine(ex.getMessage());
+			log.log(Level.FINE, "Invalid date time entered", ex);
 			infoLabel.setForeground(Color.RED);
 			infoLabel.setText("Rentrez un nombre valide: " + ex.getMessage());
 		} catch (Exception ex) {
