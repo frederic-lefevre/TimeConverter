@@ -209,12 +209,18 @@ public class DateTimePanel extends JPanel {
 		monthsField.setSelectedItem(item);
 
 		// Update year, hour, minute, second, nano fields
-		yearField.setText(Integer.toString(zdt.getYear()));
-		hourField.setText(Integer.toString(zdt.getHour()));
-		minuteField.setText(Integer.toString(zdt.getMinute()));
-		secondField.setText(Integer.toString(zdt.getSecond()));
-		milliField.setText(Integer.toString(zdt.getNano() / 1000000));
+		
+		setDateTimeField(yearField, zdt.getYear());
+		setDateTimeField(hourField, zdt.getHour());
+		setDateTimeField(minuteField, zdt.getMinute());
+		setDateTimeField(secondField, zdt.getSecond());
+		setDateTimeField(milliField, zdt.getNano() / 1000000);
 
 		addActionListeners();
+	}
+	
+	private void setDateTimeField(JTextField field, int value) {
+		field.setForeground(Color.BLACK);
+		field.setText(Integer.toString(value));
 	}
 }
