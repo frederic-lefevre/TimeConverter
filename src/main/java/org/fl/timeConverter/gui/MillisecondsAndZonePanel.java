@@ -123,6 +123,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 		String milliText = millisField.getText();
 		try {
 			long milli;
+			millisField.setForeground(Color.BLACK);
 			if (milliText.equalsIgnoreCase(NOW)) {
 				milli = System.currentTimeMillis();
 				millisField.setText(Long.toString(milli));
@@ -142,6 +143,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			timeField.setForeground(Color.RED);
+			millisField.setForeground(Color.RED);
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Exception processing date milli=" + milliText, e);
