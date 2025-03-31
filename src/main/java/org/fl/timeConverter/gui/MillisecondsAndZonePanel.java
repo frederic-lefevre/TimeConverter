@@ -104,6 +104,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 	}
 
 	public void setMillisecondsField(long millis) {
+		millisField.setForeground(Color.BLACK);
 		millisField.setText(Long.toString(millis));
 	}
 
