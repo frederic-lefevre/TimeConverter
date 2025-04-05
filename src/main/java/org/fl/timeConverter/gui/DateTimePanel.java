@@ -44,6 +44,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.fl.timeConverter.Config;
 import org.fl.timeConverter.DisplayableTemporal;
 import org.fl.timeConverter.DisplayableTemporalSet;
 import org.fl.timeConverter.TimeUtils;
@@ -168,7 +169,7 @@ public class DateTimePanel extends JPanel {
 				long milli = zdt.toInstant().toEpochMilli();
 				mzp.setMillisecondsField(milli);
 				infoLabel.setForeground(Color.BLACK);
-				infoLabel.setText(TimeUtils.convertTime(milli, zo, TimeConverterGui.DATE_PATTERN));
+				infoLabel.setText(TimeUtils.convertTime(milli, zo, Config.getDateTimeFormatter()));
 			}
 		} catch (NumberFormatException ex) {
 			log.log(Level.FINE, "Invalid user entry", ex);
@@ -209,12 +210,18 @@ public class DateTimePanel extends JPanel {
 		monthsField.setSelectedItem(item);
 
 		// Update year, hour, minute, second, nano fields
-		yearField.setText(Integer.toString(zdt.getYear()));
-		hourField.setText(Integer.toString(zdt.getHour()));
-		minuteField.setText(Integer.toString(zdt.getMinute()));
-		secondField.setText(Integer.toString(zdt.getSecond()));
-		milliField.setText(Integer.toString(zdt.getNano() / 1000000));
+		
+		setDateTimeField(yearField, zdt.getYear());
+		setDateTimeField(hourField, zdt.getHour());
+		setDateTimeField(minuteField, zdt.getMinute());
+		setDateTimeField(secondField, zdt.getSecond());
+		setDateTimeField(milliField, zdt.getNano() / 1000000);
 
 		addActionListeners();
+	}
+	
+	private void setDateTimeField(JTextField field, int value) {
+		field.setForeground(Color.BLACK);
+		field.setText(Integer.toString(value));
 	}
 }

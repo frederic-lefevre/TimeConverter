@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.fl.timeConverter.Config;
 import org.fl.timeConverter.TimeUtils;
 
 public class MillisecondsAndZonePanel extends JPanel {
@@ -104,6 +105,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 	}
 
 	public void setMillisecondsField(long millis) {
+		millisField.setForeground(Color.BLACK);
 		millisField.setText(Long.toString(millis));
 	}
 
@@ -123,6 +125,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 		String milliText = millisField.getText();
 		try {
 			long milli;
+			millisField.setForeground(Color.BLACK);
 			if (milliText.equalsIgnoreCase(NOW)) {
 				milli = System.currentTimeMillis();
 				millisField.setText(Long.toString(milli));
@@ -131,7 +134,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 			}
 
 			timeField.setForeground(Color.BLACK);
-			timeField.setText(TimeUtils.convertTime(milli, zone, TimeConverterGui.DATE_PATTERN));
+			timeField.setText(TimeUtils.convertTime(milli, zone, Config.getDateTimeFormatter()));
 
 			// Get the ZonedDateTime corresponding to the milliseconds and the zone
 			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())),
@@ -142,6 +145,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			timeField.setForeground(Color.RED);
+			millisField.setForeground(Color.RED);
 			timeField.setText("Rentrez un nombre valide de millisecondes ou \"now\"");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Exception processing date milli=" + milliText, e);

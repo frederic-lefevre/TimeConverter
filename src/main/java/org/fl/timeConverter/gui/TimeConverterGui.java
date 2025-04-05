@@ -61,12 +61,8 @@ public class TimeConverterGui  extends JFrame {
 		});
 	}
 	
-	public static final int WINDOW_WIDTH = 1600;
-	public static final int WINDOW_HEIGHT = 300;
-	
-	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
-
-	private JLabel timeField;
+	private static final int WINDOW_WIDTH = 1600;
+	private static final int WINDOW_HEIGHT = 300;
 
 	public TimeConverterGui() throws URISyntaxException {
 
@@ -90,7 +86,7 @@ public class TimeConverterGui  extends JFrame {
 
 			JPanel datePane = new JPanel();
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-			timeField = new JLabel();
+			JLabel timeField = new JLabel();
 			timeField.setPreferredSize(new Dimension(600, 30));
 			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			datePane.add(new JLabel(" correspond à : "));
