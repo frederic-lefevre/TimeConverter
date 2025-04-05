@@ -66,8 +66,6 @@ public class TimeConverterGui  extends JFrame {
 	
 	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
 
-	private JLabel timeField;
-
 	public TimeConverterGui() throws URISyntaxException {
 
 		// access to properties and logger
@@ -90,7 +88,7 @@ public class TimeConverterGui  extends JFrame {
 
 			JPanel datePane = new JPanel();
 			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-			timeField = new JLabel();
+			JLabel timeField = new JLabel();
 			timeField.setPreferredSize(new Dimension(600, 30));
 			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			datePane.add(new JLabel(" correspond à : "));
