@@ -26,10 +26,12 @@ package org.fl.timeConverter.TimeConverter;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.Set;
 import java.util.Vector;
 
+import org.fl.timeConverter.DisplayableTemporalSet;
 import org.fl.timeConverter.TimeUtils;
 import org.junit.jupiter.api.Test;
 
@@ -49,6 +51,16 @@ class TimeUtilsTest {
 
 	@Test
 	void testUTC() {
+
+		String zeroTime = "jeudi 01 janvier 1970  00:00:00.000 UTC";
+		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of("UTC"), datePattern);
+
+		assertThat(beginTimeAsString).isEqualTo(zeroTime);
+
+	}
+	
+	@Test
+	void testUTC2() {
 
 		String someTime = "mercredi 15 avril 2020  07:47:06.673 UTC";
 		String beginTimeAsString = TimeUtils.convertTime(1586936826673L, ZoneId.of("UTC"), datePattern);
@@ -75,6 +87,13 @@ class TimeUtilsTest {
 	@Test
 	void testMonths() {
 
-		TimeUtils.getMonths();
+		DisplayableTemporalSet monthsMap = TimeUtils.getMonths();
+		
+		Month[] months = Month.values();
+		
+		assertThat(monthsMap).isNotNull()
+			.hasSize(months.length)
+			.containsKeys(months);
+		
 	}
 }
