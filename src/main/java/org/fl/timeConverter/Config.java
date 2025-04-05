@@ -26,6 +26,8 @@ package org.fl.timeConverter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import org.fl.util.RunningContext;
 
@@ -35,6 +37,10 @@ public class Config {
 	
 	private static RunningContext runningContext;
 	private static boolean initialized = false;
+	
+	
+	private static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN).localizedBy(Locale.FRENCH);
 	
 	private Config() {
 	}
@@ -53,4 +59,7 @@ public class Config {
 		return runningContext;
 	}
 
+	public static DateTimeFormatter getDateTimeFormatter() {
+		return dateTimeFormatter;
+	}
 }

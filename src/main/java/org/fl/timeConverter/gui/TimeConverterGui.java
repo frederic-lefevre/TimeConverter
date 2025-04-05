@@ -63,8 +63,6 @@ public class TimeConverterGui  extends JFrame {
 	
 	private static final int WINDOW_WIDTH = 1600;
 	private static final int WINDOW_HEIGHT = 300;
-	
-	public static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
 
 	public TimeConverterGui() throws URISyntaxException {
 

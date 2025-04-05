@@ -45,10 +45,8 @@ public class TimeUtils {
 	private static final Logger log = Logger.getLogger(TimeUtils.class.getName());
 	
 	// Convert milliseconds since 1/1/1970 UTC in a date string in the zone ZoneId
-	public static String convertTime(long milli, ZoneId zoneId, String datePattern) {
-		return DateTimeFormatter.ofPattern(datePattern)
-				.localizedBy(Locale.FRENCH)
-				.format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
+	public static String convertTime(long milli, ZoneId zoneId, DateTimeFormatter formatter) {
+		return formatter.format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(milli), zoneId));
 	}
 	
 	// Get all ZoneId in a vector

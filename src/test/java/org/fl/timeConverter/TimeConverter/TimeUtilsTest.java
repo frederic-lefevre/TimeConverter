@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2024 Frederic Lefevre
+Copyright (c) 2017, 2025 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
 
@@ -37,13 +39,14 @@ import org.junit.jupiter.api.Test;
 
 class TimeUtilsTest {
 
-	private final static String datePattern = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV";
+	private static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS VV";
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN).localizedBy(Locale.FRENCH);
 
 	@Test
 	void testParis() {
 
 		String zeroTime = "jeudi 01 janvier 1970  01:00:00.000 Europe/Paris";
-		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of(ZoneId.SHORT_IDS.get("ECT")), datePattern);
+		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of(ZoneId.SHORT_IDS.get("ECT")), dateTimeFormatter);
 
 		assertThat(beginTimeAsString).isEqualTo(zeroTime);
 
@@ -53,7 +56,7 @@ class TimeUtilsTest {
 	void testUTC() {
 
 		String zeroTime = "jeudi 01 janvier 1970  00:00:00.000 UTC";
-		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of("UTC"), datePattern);
+		String beginTimeAsString = TimeUtils.convertTime(0, ZoneId.of("UTC"), dateTimeFormatter);
 
 		assertThat(beginTimeAsString).isEqualTo(zeroTime);
 
@@ -63,7 +66,7 @@ class TimeUtilsTest {
 	void testUTC2() {
 
 		String someTime = "mercredi 15 avril 2020  07:47:06.673 UTC";
-		String beginTimeAsString = TimeUtils.convertTime(1586936826673L, ZoneId.of("UTC"), datePattern);
+		String beginTimeAsString = TimeUtils.convertTime(1586936826673L, ZoneId.of("UTC"), dateTimeFormatter);
 
 		assertThat(beginTimeAsString).isEqualTo(someTime);
 

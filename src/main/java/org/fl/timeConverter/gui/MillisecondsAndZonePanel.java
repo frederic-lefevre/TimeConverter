@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.fl.timeConverter.Config;
 import org.fl.timeConverter.TimeUtils;
 
 public class MillisecondsAndZonePanel extends JPanel {
@@ -133,7 +134,7 @@ public class MillisecondsAndZonePanel extends JPanel {
 			}
 
 			timeField.setForeground(Color.BLACK);
-			timeField.setText(TimeUtils.convertTime(milli, zone, TimeConverterGui.DATE_PATTERN));
+			timeField.setText(TimeUtils.convertTime(milli, zone, Config.getDateTimeFormatter()));
 
 			// Get the ZonedDateTime corresponding to the milliseconds and the zone
 			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(millisField.getText())),
