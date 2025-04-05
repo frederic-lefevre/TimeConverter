@@ -27,11 +27,14 @@ package org.fl.timeConverter.TimeConverter;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.Month;
+import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Stream;
 
 import org.fl.timeConverter.DisplayableTemporalSet;
 import org.fl.timeConverter.TimeUtils;
@@ -99,4 +102,19 @@ class TimeUtilsTest {
 			.containsKeys(months);
 		
 	}
+	
+	@Test
+	void testGetAllDayOfMonth() {
+		
+		Stream.of(Month.values()).forEach(month -> {
+			
+			ZonedDateTime someTimeInThisMonth = ZonedDateTime.of(2020, month.getValue(), 1, 1, 1, 1, 0, ZoneId.of("UTC"));
+			DisplayableTemporalSet dayOfMonthMap = TimeUtils.getAllDaysOfMonth(someTimeInThisMonth);
+			
+			assertThat(dayOfMonthMap).isNotNull()
+				.hasSize(YearMonth.from(someTimeInThisMonth).lengthOfMonth());
+		}
+		);
+	}
+	
 }
