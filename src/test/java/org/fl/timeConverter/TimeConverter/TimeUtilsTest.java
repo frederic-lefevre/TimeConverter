@@ -26,6 +26,7 @@ package org.fl.timeConverter.TimeConverter;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.DateTimeException;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -117,4 +118,35 @@ class TimeUtilsTest {
 		);
 	}
 	
+	@Test
+	void testGuessZonedDateTimeOfInvalidMonth() {		
+		assertThatExceptionOfType(DateTimeException.class).isThrownBy(() -> TimeUtils.guessZonedDateTimeOf(0, 13, 1, 1, 1, 1, 0, ZoneId.of("UTC")));
+	}
+	
+	@Test
+	void testGuessZonedDateTimeOfInvalidDay() {		
+		assertThatExceptionOfType(DateTimeException.class).isThrownBy(() -> TimeUtils.guessZonedDateTimeOf(0, 1, 32, 1, 1, 1, 0, ZoneId.of("UTC")));
+	}
+	
+	@Test
+	void testGuessZonedDateTimeOfInvalidHour() {		
+		assertThatExceptionOfType(DateTimeException.class).isThrownBy(() -> TimeUtils.guessZonedDateTimeOf(0, 1, 1, 25, 1, 1, 0, ZoneId.of("UTC")));
+	}
+	
+	@Test
+	void testGuessZonedDateTimeOfInvalidMinute() {		
+		assertThatExceptionOfType(DateTimeException.class).isThrownBy(() -> TimeUtils.guessZonedDateTimeOf(0, 1, 1, 1, 61, 1, 0, ZoneId.of("UTC")));
+	}
+	
+	@Test
+	void testGuessZonedDateTimeOfInvalidSecond() {		
+		assertThatExceptionOfType(DateTimeException.class).isThrownBy(() -> TimeUtils.guessZonedDateTimeOf(0, 1, 1, 1, 1, 61, 0, ZoneId.of("UTC")));
+	}
+	
+	@Test
+	void testGuessZonedDateTimeOf() {
+		assertThat(TimeUtils.guessZonedDateTimeOf(2020, 1, 1, 1, 1, 1, 0, ZoneId.of("UTC")))
+			.isInThePast().isEqualTo(ZonedDateTime.of(2020, 1, 1, 1, 1, 1, 0, ZoneId.of("UTC")));
+
+	}
 }
