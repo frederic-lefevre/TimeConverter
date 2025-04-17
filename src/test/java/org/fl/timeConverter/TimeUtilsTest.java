@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package org.fl.timeConverter.TimeConverter;
+package org.fl.timeConverter;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -37,8 +37,6 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Stream;
 
-import org.fl.timeConverter.DisplayableTemporalSet;
-import org.fl.timeConverter.TimeUtils;
 import org.junit.jupiter.api.Test;
 
 class TimeUtilsTest {

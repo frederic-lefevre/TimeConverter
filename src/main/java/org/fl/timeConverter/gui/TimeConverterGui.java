@@ -42,10 +42,12 @@ import org.fl.timeConverter.Config;
 import org.fl.util.RunningContext;
 import org.fl.util.swing.ApplicationTabbedPane;
 
-public class TimeConverterGui  extends JFrame {
+public class TimeConverterGui extends JFrame {
 	
 	private static final long serialVersionUID = 2368226038474247064L;
 
+	private static final String DEFAULT_PROP_FILE = "file:///C:/FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
+	
 	private static final Logger log = Logger.getLogger(TimeConverterGui.class.getName());
 			
 	public static void main(String[] args) {
@@ -64,10 +66,14 @@ public class TimeConverterGui  extends JFrame {
 	private static final int WINDOW_WIDTH = 1600;
 	private static final int WINDOW_HEIGHT = 300;
 
+	public static String getPropertyFile() {
+		return DEFAULT_PROP_FILE;
+	}
+	
 	public TimeConverterGui() throws URISyntaxException {
 
 		// access to properties and logger
-		Config.initConfig(Config.DEFAULT_PROP_FILE);
+		Config.initConfig(DEFAULT_PROP_FILE);
 		RunningContext runningContext = Config.getRunningContext();
 		
 		if (runningContext != null) {

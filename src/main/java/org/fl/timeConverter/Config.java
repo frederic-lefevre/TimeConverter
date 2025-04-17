@@ -29,15 +29,13 @@ import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import org.fl.timeConverter.gui.TimeConverterGui;
 import org.fl.util.RunningContext;
 
 public class Config {
-
-	public static final String DEFAULT_PROP_FILE = "file:///C:/FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
 	
 	private static RunningContext runningContext;
 	private static boolean initialized = false;
-	
 	
 	private static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
 	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN).localizedBy(Locale.FRENCH);
@@ -48,13 +46,12 @@ public class Config {
 	public static void initConfig(String propertyFile) throws URISyntaxException {
 			
 		runningContext = new RunningContext("org.fl.timeConverter", new URI(propertyFile));
-
 		initialized = true;
 	}
 		
 	public static RunningContext getRunningContext() throws URISyntaxException {
 		if (!initialized) {
-			initConfig(DEFAULT_PROP_FILE);
+			initConfig(TimeConverterGui.getPropertyFile());
 		}
 		return runningContext;
 	}
