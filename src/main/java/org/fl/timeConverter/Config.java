@@ -47,7 +47,7 @@ public class Config {
 
 	public static void initConfig(String propertyFile) throws URISyntaxException {
 			
-		runningContext = new RunningContext("org.fl.timeConverter", null, new URI(propertyFile));
+		runningContext = new RunningContext("org.fl.timeConverter", new URI(propertyFile));
 
 		initialized = true;
 	}
