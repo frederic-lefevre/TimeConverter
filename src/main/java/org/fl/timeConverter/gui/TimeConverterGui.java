@@ -123,8 +123,8 @@ public class TimeConverterGui extends JFrame {
 	
 	private static void setFontForAll(Component component, Font font) 	{
 	    component.setFont(font);
-	    if (component instanceof Container) {
-	        for (Component child : ((Container)component).getComponents()) {
+	    if (component instanceof Container container) {
+	        for (Component child : container.getComponents()) {
 	        	setFontForAll(child, font);
 	        }
 	    }
