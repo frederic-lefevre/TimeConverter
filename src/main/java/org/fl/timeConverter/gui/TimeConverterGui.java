@@ -46,7 +46,7 @@ public class TimeConverterGui extends JFrame {
 	
 	private static final long serialVersionUID = 2368226038474247064L;
 
-	private static final String DEFAULT_PROP_FILE = "file:///C:/FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
+	private static final String DEFAULT_PROP_FILE = "file:///FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
 	
 	private static final Logger log = Logger.getLogger(TimeConverterGui.class.getName());
 			
