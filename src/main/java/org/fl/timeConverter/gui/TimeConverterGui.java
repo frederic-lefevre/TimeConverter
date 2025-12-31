@@ -29,7 +29,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,7 +70,7 @@ public class TimeConverterGui extends JFrame {
 		return DEFAULT_PROP_FILE;
 	}
 	
-	public TimeConverterGui() throws URISyntaxException {
+	public TimeConverterGui() {
 
 		// access to properties and logger
 		Config.initConfig(getPropertyFile());
