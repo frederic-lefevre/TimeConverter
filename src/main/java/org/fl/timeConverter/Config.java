@@ -24,8 +24,6 @@ SOFTWARE.
 
 package org.fl.timeConverter;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -43,13 +41,13 @@ public class Config {
 	private Config() {
 	}
 
-	public static void initConfig(String propertyFile) throws URISyntaxException {
+	public static void initConfig(String propertyFile) {
 			
-		runningContext = new RunningContext("org.fl.timeConverter", new URI(propertyFile));
+		runningContext = new RunningContext("org.fl.timeConverter", propertyFile);
 		initialized = true;
 	}
 		
-	public static RunningContext getRunningContext() throws URISyntaxException {
+	public static RunningContext getRunningContext() {
 		if (!initialized) {
 			initConfig(TimeConverterGui.getPropertyFile());
 		}

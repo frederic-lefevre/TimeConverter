@@ -29,7 +29,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.net.URISyntaxException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -70,10 +70,10 @@ public class TimeConverterGui extends JFrame {
 		return DEFAULT_PROP_FILE;
 	}
 	
-	public TimeConverterGui() throws URISyntaxException {
+	public TimeConverterGui() {
 
 		// access to properties and logger
-		Config.initConfig(DEFAULT_PROP_FILE);
+		Config.initConfig(getPropertyFile());
 		RunningContext runningContext = Config.getRunningContext();
 		
 		if (runningContext != null) {
@@ -84,35 +84,40 @@ public class TimeConverterGui extends JFrame {
 			
 			ApplicationTabbedPane timeConverterTabs = new ApplicationTabbedPane(runningContext);
 			
-			JPanel timeConverterPane = new JPanel();
-			timeConverterPane.setLayout(new BoxLayout(timeConverterPane, BoxLayout.Y_AXIS));
+			try {
+				JPanel timeConverterPane = new JPanel();
+				timeConverterPane.setLayout(new BoxLayout(timeConverterPane, BoxLayout.Y_AXIS));
 
-			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
-			timeConverterPane.add(milliAndZonePane);
+				MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
+				timeConverterPane.add(milliAndZonePane);
 
-			JPanel datePane = new JPanel();
-			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-			JLabel timeField = new JLabel();
-			timeField.setPreferredSize(new Dimension(600, 30));
-			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			datePane.add(new JLabel(" correspond à : "));
-			datePane.add(timeField);
-			timeConverterPane.add(datePane);
+				JPanel datePane = new JPanel();
+				datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
+				JLabel timeField = new JLabel();
+				timeField.setPreferredSize(new Dimension(600, 30));
+				timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+				datePane.add(new JLabel(" correspond à : "));
+				datePane.add(timeField);
+				timeConverterPane.add(datePane);
 
-			DateTimePanel dateTimePanel = new DateTimePanel();
-			timeConverterPane.add(dateTimePanel);
+				DateTimePanel dateTimePanel = new DateTimePanel();
+				timeConverterPane.add(dateTimePanel);
 
-			setFontForAll(timeConverterPane, new Font("Verdana", Font.BOLD, 16));
+				setFontForAll(timeConverterPane, new Font("Verdana", Font.BOLD, 16));
 
-			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
-			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
+				milliAndZonePane.addActionListeners(dateTimePanel, timeField);
+				dateTimePanel.addActionListeners(milliAndZonePane, timeField);
 
-			// init with current time
-			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
-			milliAndZonePane.upDateTimeField();
-			
-			timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
-			timeConverterTabs.setSelectedIndex(0);
+				// init with current time
+				milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
+				milliAndZonePane.upDateTimeField();
+
+				timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
+				timeConverterTabs.setSelectedIndex(0);
+				
+			} catch (Exception e) {
+				log.log(Level.SEVERE, "Exception during application startup", e);
+			}
 			
 			getContentPane().add(timeConverterTabs);
 
