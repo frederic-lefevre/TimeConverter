@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2025 Frederic Lefevre
+Copyright (c) 2017, 2026 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.fl.timeConverter.Config;
 import org.fl.util.RunningContext;
 import org.fl.util.swing.ApplicationTabbedPane;
 
@@ -49,15 +48,20 @@ public class TimeConverterGui extends JFrame {
 	private static final String DEFAULT_PROP_FILE = "file:///FredericPersonnel/Program/PortableApps/TimeConverter/timeConverter.properties";
 	
 	private static final Logger log = Logger.getLogger(TimeConverterGui.class.getName());
-			
+		
+	private static RunningContext runningContext;
+	
 	public static void main(String[] args) {
+		
+		getRunningContext();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					TimeConverterGui window = new TimeConverterGui();
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.log(Level.SEVERE, "Exception while launching application", e);
 				}
 			}
 		});
@@ -65,65 +69,58 @@ public class TimeConverterGui extends JFrame {
 	
 	private static final int WINDOW_WIDTH = 1600;
 	private static final int WINDOW_HEIGHT = 300;
-
-	public static String getPropertyFile() {
-		return DEFAULT_PROP_FILE;
+	
+	public static RunningContext getRunningContext() {
+		if (runningContext == null) {
+			runningContext = new RunningContext("org.fl.timeConverter", DEFAULT_PROP_FILE);
+		}
+		return runningContext;
 	}
 	
 	public TimeConverterGui() {
 
-		// access to properties and logger
-		Config.initConfig(getPropertyFile());
-		RunningContext runningContext = Config.getRunningContext();
-		
-		if (runningContext != null) {
+		setBounds(20, 20, WINDOW_WIDTH, WINDOW_HEIGHT);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Convertiseur de temps");
 
-	   		setBounds(20, 20, WINDOW_WIDTH, WINDOW_HEIGHT);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setTitle("Convertiseur de temps");
-			
-			ApplicationTabbedPane timeConverterTabs = new ApplicationTabbedPane(runningContext);
-			
-			try {
-				JPanel timeConverterPane = new JPanel();
-				timeConverterPane.setLayout(new BoxLayout(timeConverterPane, BoxLayout.Y_AXIS));
+		ApplicationTabbedPane timeConverterTabs = new ApplicationTabbedPane(getRunningContext());
 
-				MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
-				timeConverterPane.add(milliAndZonePane);
+		try {
+			JPanel timeConverterPane = new JPanel();
+			timeConverterPane.setLayout(new BoxLayout(timeConverterPane, BoxLayout.Y_AXIS));
 
-				JPanel datePane = new JPanel();
-				datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
-				JLabel timeField = new JLabel();
-				timeField.setPreferredSize(new Dimension(600, 30));
-				timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				datePane.add(new JLabel(" correspond à : "));
-				datePane.add(timeField);
-				timeConverterPane.add(datePane);
+			MillisecondsAndZonePanel milliAndZonePane = new MillisecondsAndZonePanel();
+			timeConverterPane.add(milliAndZonePane);
 
-				DateTimePanel dateTimePanel = new DateTimePanel();
-				timeConverterPane.add(dateTimePanel);
+			JPanel datePane = new JPanel();
+			datePane.setLayout(new BoxLayout(datePane, BoxLayout.X_AXIS));
+			JLabel timeField = new JLabel();
+			timeField.setPreferredSize(new Dimension(600, 30));
+			timeField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			datePane.add(new JLabel(" correspond à : "));
+			datePane.add(timeField);
+			timeConverterPane.add(datePane);
 
-				setFontForAll(timeConverterPane, new Font("Verdana", Font.BOLD, 16));
+			DateTimePanel dateTimePanel = new DateTimePanel();
+			timeConverterPane.add(dateTimePanel);
 
-				milliAndZonePane.addActionListeners(dateTimePanel, timeField);
-				dateTimePanel.addActionListeners(milliAndZonePane, timeField);
+			setFontForAll(timeConverterPane, new Font("Verdana", Font.BOLD, 16));
 
-				// init with current time
-				milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
-				milliAndZonePane.upDateTimeField();
+			milliAndZonePane.addActionListeners(dateTimePanel, timeField);
+			dateTimePanel.addActionListeners(milliAndZonePane, timeField);
 
-				timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
-				timeConverterTabs.setSelectedIndex(0);
-				
-			} catch (Exception e) {
-				log.log(Level.SEVERE, "Exception during application startup", e);
-			}
-			
-			getContentPane().add(timeConverterTabs);
+			// init with current time
+			milliAndZonePane.setMillisecondsField(System.currentTimeMillis());
+			milliAndZonePane.upDateTimeField();
 
-		} else {
-			log.severe("Null runningContext");
+			timeConverterTabs.add(timeConverterPane, "Convertion de temps", 0);
+			timeConverterTabs.setSelectedIndex(0);
+
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Exception during application startup", e);
 		}
+
+		getContentPane().add(timeConverterTabs);
 	}
 	
 	private static void setFontForAll(Component component, Font font) 	{
@@ -134,5 +131,4 @@ public class TimeConverterGui extends JFrame {
 	        }
 	    }
 	}
-
 }

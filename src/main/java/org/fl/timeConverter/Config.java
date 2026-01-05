@@ -1,7 +1,7 @@
 /*
  * MIT License
 
-Copyright (c) 2017, 2025 Frederic Lefevre
+Copyright (c) 2017, 2026 Frederic Lefevre
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,29 +32,26 @@ import org.fl.util.RunningContext;
 
 public class Config {
 	
-	private static RunningContext runningContext;
-	private static boolean initialized = false;
-	
 	private static final String DATE_PATTERN = "EEEE dd MMMM uuuu  HH:mm:ss.SSS";
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN).localizedBy(Locale.FRENCH);
+	private DateTimeFormatter dateTimeFormatter; 
+	
+	private static Config instance;
+	
+	private static Config getInstance() {
+		if (instance == null) {
+			instance = new Config(TimeConverterGui.getRunningContext());
+		}
+		return instance;
+	}
 	
 	private Config() {
 	}
 
-	public static void initConfig(String propertyFile) {
-			
-		runningContext = new RunningContext("org.fl.timeConverter", propertyFile);
-		initialized = true;
-	}
-		
-	public static RunningContext getRunningContext() {
-		if (!initialized) {
-			initConfig(TimeConverterGui.getPropertyFile());
-		}
-		return runningContext;
+	private Config(RunningContext runningContext) {
+		dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN).localizedBy(Locale.FRENCH);
 	}
 
 	public static DateTimeFormatter getDateTimeFormatter() {
-		return dateTimeFormatter;
+		return getInstance().dateTimeFormatter;
 	}
 }
