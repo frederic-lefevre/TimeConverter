@@ -81,7 +81,7 @@ public class TimeConverterGui extends JFrame {
 
 		setBounds(20, 20, WINDOW_WIDTH, WINDOW_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Convertiseur de temps");
+		setTitle("Convertiseur de temps  [" + getRunningContext().getVersion() + "]");
 
 		ApplicationTabbedPane timeConverterTabs = new ApplicationTabbedPane(getRunningContext());
 
